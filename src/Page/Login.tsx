@@ -31,36 +31,51 @@ const LoginPage: React.FC = () => {
 
   return (
     <div>
-      <h1>Login</h1>
+      <h1><b>Login to iRecycle</b></h1>
       <form onSubmit={handleFormSubmit}>
-        <div style={{ textAlign: 'right' }}>
-        <div>
-          <label htmlFor="email">Email: </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            required
-          />
+        <div style={{ textAlign: 'left' }}><div style={{ color: 'black' }}>
+          <div>
+            <label htmlFor="email">email</label><br />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              required
+              style={{ width: '100%' }}
+            />
+          </div>
+          <div>
+            <label htmlFor="password">password</label><br />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+              style={{ width: '100%' }}
+            />
+          </div>
         </div>
-        <div>
-          <label htmlFor="password">Password: </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            required
-          />
         </div>
+        <div style={{ color: 'red' }}>
+          {errorMessage && <p>{errorMessage}</p>}</div>
+        <div className="container">
+          <div className="left-column">
+            <div style={{ textAlign: 'left' }}>
+              <button className="secondary-button">Register</button>
+            </div>
+          </div>
+          <div className="right-column">
+            <div style={{ textAlign: 'right' }}>
+              <button className="primary-button">Login</button>
+            </div>
+          </div>
         </div>
-        {errorMessage && <p>{errorMessage}</p>}
-        <button type="submit">Login</button>
-      </form>
-    </div>
+      </form >
+    </div >
   );
 };
 
