@@ -14,14 +14,14 @@
 }
 
 .App-header {
-  background-color: #ffffff;
-  min-height: 75vh;
+  background-color: #282c34;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: #0CA789;
+  color: white;
 }
 
 .App-link {
@@ -35,74 +35,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-.secondary-button {
-  background-color: #ffffff;
-  color: #0CA789;
-  border: 3px solid #0CA789;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  width: 20vmin;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.secondary-button:hover {
-  background-color: #0CA789;
-  color: #ffffff;
-  border: 3px solid #ffffff;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  width: 20vmin;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.primary-button {
-  background-color: #0CA789;
-  color: #ffffff;
-  border: 3px solid #ffffff;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  width: 20vmin;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.primary-button:hover {
-  background-color: #ffffff;
-  color: #0CA789;
-  border: 3px solid #0CA789;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  width: 20vmin;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.input-box {
-  border: 2px solid #b6b6b6;
-  border-radius: 8px;
-  padding: 10px;
-}
-
-.container {
-  display: flex;
-}
-
-.left-column {
-  flex: 1;
-}
-
-.right-column {
-  flex: 1;
 }

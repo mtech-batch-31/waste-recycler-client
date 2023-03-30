@@ -13,8 +13,8 @@ describe('LoginPage', () => {
   it('Renders the login form', () => {
     render(<LoginPage />);
 
-    expect(screen.getByLabelText('email')).toBeInTheDocument();
-    expect(screen.getByLabelText('password')).toBeInTheDocument();
+    expect(screen.getByLabelText('Email:')).toBeInTheDocument();
+    expect(screen.getByLabelText('Password:')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Login' })).toBeInTheDocument();
   });
 
