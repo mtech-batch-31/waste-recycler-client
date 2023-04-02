@@ -1,91 +1,80 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
+import { Button, Form, Container, Row, Col } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
+import './Login.css';
+import axios from 'axios';
 
 interface LoginFormState {
-  email: string;
-  password: string;
+    email: string;
+    password: string;
 }
 
-const LoginPage: React.FC = () => {
-  const [formData, setFormData] = useState<LoginFormState>({
-    email: '',
-    password: '',
-  });
-  const [errorMessage, setErrorMessage] = useState<string>('');
+const LoginBootStrap: React.FC = () => {
+    const [formData, setFormData] = useState<LoginFormState>({
+        email: '',
+        password: '',
+    });
+    const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setFormData({ ...formData, [name]: value });
+    };
 
-  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
 
-    try {
-      // Do something with the response data, e.g. store the user token in state
-    } catch (error) {
-      setErrorMessage('Invalid email or password');
-    }
-  };
+        try {
+            const response = await axios.post('/api/login', formData);
+            // Do something with the response data, e.g. store the user token in state
+        } catch (error) {
+            setErrorMessage('Invalid email or password');
+        }
+    };
 
-  return (
-    <div>
-      <div style={{ position: "absolute", top: 0, right: 0, padding: "20px", width: "100%" }}>
-        <div style={{ textAlign: "right" }}><b>
-          <div style={{ position: "absolute", top: 0, right: 0, padding: "20px", display: "flex", alignItems: "center", fontSize: 15 }}>
-            <a href="/Login" style={{ marginRight: "10px", color: "#000000", textDecoration: "none" }}>Login</a>
-            <div style={{ width: "1px", height: "20px", backgroundColor: "white", marginRight: "10px" }}></div>
-            <a href="/Register" style={{ color: "#000000", textDecoration: "none" }}>Register</a>
-          </div></b></div>
-      </div>
-      <h1><b><div style={{ color: "#0CA789" }}>Login to iRecycle</div></b></h1>
-      <form onSubmit={handleFormSubmit}>
-        <div style={{ textAlign: 'left' }}>
-          <div>
-            {/* <label htmlFor="email">email</label><br />
-             */}<div className="input-container">
-              <input placeholder="enter your email"
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                style={{ width: '100%', paddingLeft: '7px' }}
-              />
-            </div>
-          </div>
-          <div><p></p>
-            {/* <label htmlFor="password">password</label><br />
-             */}<div className="input-container">
-              <input placeholder="enter your password"
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-                style={{ width: '100%', paddingLeft: '7px' }}
-              />
-            </div>
-          </div>
-        </div><div style={{ marginBottom: '10px' }}><br /></div>
-        <div className="container">
-          <div className="left-column">
-            <div style={{ textAlign: 'left' }}>
-              <button className="secondary-button">Register</button>
-            </div>
-          </div>
-          <div className="right-column">
-            <div style={{ textAlign: 'right' }}>
-              <button className="primary-button">Login</button>
-            </div>
-          </div>
-        </div>
-        <div style={{ color: 'red' }}><br />
-          {errorMessage && <p>{errorMessage}</p>}</div>
-      </form >
-    </div >
-  );
+    return (
+        <Container fluid>
+            <Row className="vh-100 justify-content-center align-items-center">
+                <div className="col-3 mx-auto">
+                    <Form onSubmit={handleFormSubmit}>
+                        <h1 className="custom-color">Login to Recycler</h1>
+                        <Form.Group controlId="email">
+                            <Form.Label>Email address</Form.Label>
+                            <Form.Control
+                                type="email"
+                                placeholder="Enter your email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="password">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control
+                                type="password"
+                                placeholder="Enter your password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </Form.Group>
+                        {errorMessage && <div className="text-danger mr-2 d-inline-block">{errorMessage}</div>}<br />
+                        <Row className="d-flex justify-content-between align-items-center">
+                            <Col>
+                                <Button variant="primary" type="submit" className="btn-custom-outline">Register</Button>
+                            </Col>
+                            <Col className="d-flex justify-content-end">
+                                <Button variant="primary" type="submit" className="btn-custom">Login</Button>
+                            </Col>
+                        </Row>
+                    </Form>
+                </div>
+            </Row>
+        </Container>
+    );
 };
 
-export default LoginPage;
+export default LoginBootStrap;
