@@ -10,6 +10,7 @@
   font-weight: bold;
   width: 15vmin;
   min-width: 60px;
+  margin-top: 5px;
   padding: 4px;
   margin-top: 10px;
   cursor: pointer;
@@ -43,6 +44,7 @@
   width: 15vmin;
   margin-top: 10px;
   min-width: 77px;
+  margin-top: 5px;
   padding: 4px;
   cursor: pointer;
   transition: background-color 0.2s ease;

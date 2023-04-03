@@ -47,3 +47,49 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Automated Jest Unit Testing
+
+### Installation
+
+### VS Code
+
+In VS Code, install the extension Jest v5.2.3 by Orta.
+
+## Filename Conventions
+
+Jest will look for test files with any of the following popular naming conventions:
+
+Files with .js suffix in __tests__ folders.
+Files with .test.js suffix.
+Files with .spec.js suffix.
+
+## Triggering Jest
+
+You can trigger Jest by running npm test manually, or configure it to run whenever you save.
+
+Go to Settings icon, Settings, search for Jest, Edit in settings.json and add the following code:
+
+    "jest.autoRun": {
+        "watch": true,
+        "onStartup": [
+            "all-tests"
+        ],
+        "onSave": "test-src-file"
+    }
+
+## CICD
+
+### Installation of Dependencies
+
+### React Scripts:
+
+npm install react-scripts
+
+npm install
+
+### If running Github actions, 
+
+npm install react-scripts
+
+npm ci --force
