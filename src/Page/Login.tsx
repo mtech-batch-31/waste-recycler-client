@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Form, Container, Row, Col } from 'react-bootstrap';
+import { Link } from "react-router-dom"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import './Login.css';
@@ -116,7 +117,7 @@ const Login: React.FC = () => {
                         {errorMessage && <div className="text-danger mr-2 d-inline-block">{errorMessage}</div>}<br />
                         <Row className="d-flex justify-content-between align-items-center">
                             <Col>
-                                <Button variant="primary" type="submit" className="btn-custom-outline">Register</Button>
+                                <Link to="/register"><Button variant="primary" className="btn-custom-outline">Register</Button></Link>
                             </Col>
                             <Col className="d-flex justify-content-end">
                                 <Button variant="primary" type="submit" className="btn-custom">Login</Button>
