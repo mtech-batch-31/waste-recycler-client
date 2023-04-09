@@ -222,7 +222,7 @@ const RegisterAccount = () => {
             </Row>
             <Row className="d-flex justify-content-between align-items-center">
                 <Col>
-                    <Link to="..">Return to Login page</Link>
+                    <Link className="App-link" to="..">Return to Login page</Link>
                 </Col>
                 <Col className="d-flex justify-content-end">
                     <Button variant="primary" type="submit" className="btn-custom">Register</Button>
