@@ -1,0 +1,11 @@
+.nav-bar {
+    background-color: #0CA789;
+}
+.nav-item {
+    font-size: 80px;
+    font-weight: bold;
+    color: #051613;
+}
+.nav-item:active {
+    color: #f69ba7 !important;
+  }

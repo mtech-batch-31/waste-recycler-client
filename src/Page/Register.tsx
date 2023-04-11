@@ -124,7 +124,7 @@ const RegisterAccount = () => {
                     address: `Blk ${formData.blockNo}, ${formData.street}, #${formData.floorNo}-{${formData.unitNo}}`,
                     postalCode: formData.postalCode
                 });
-                if(response.status != 200) //register unsuccess
+                if(response.status !== 200) //register unsuccess
                 {
                     setRegisterResult({isSuccess: false, message: "Error when registering. Please try again."});
                     console.log(response);
