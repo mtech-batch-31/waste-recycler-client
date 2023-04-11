@@ -1,8 +1,13 @@
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import Login from './Login';
 
 test('renders email and password form inputs', () => {
-    render(<Login />);
+    render(
+        <MemoryRouter>
+            <Login />
+        </MemoryRouter>
+    );
     const emailInput = screen.getByLabelText(/email address/i);
     expect(emailInput).toBeInTheDocument();
     const passwordInput = screen.getByLabelText(/password/i);
