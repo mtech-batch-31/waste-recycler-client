@@ -6,6 +6,11 @@
     font-weight: bold;
     color: #051613;
 }
+
+a.nav-item{
+    color: #051613;
+}
+
 .nav-item:active {
     color: #f69ba7 !important;
   }
