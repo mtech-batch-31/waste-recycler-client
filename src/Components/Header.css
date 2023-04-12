@@ -12,6 +12,11 @@
     font-weight: bold;
     color: #051613;
 }
+
+a.nav-item{
+    color: #051613;
+}
+
 .nav-item:active {
     background-color: #0CA789;
     color: #c9ce7f !important;
