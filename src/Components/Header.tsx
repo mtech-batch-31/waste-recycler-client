@@ -1,14 +1,25 @@
-import {Navbar, NavDropdown, Nav} from 'react-bootstrap'
+import {Dropdown} from 'react-bootstrap'
 import './Header.css'
 import { Fragment } from 'react';
+import { FaBars, FaUserCircle } from "react-icons/fa";
 
 const Header = () => {
     return (
-    <Nav className='nav-bar'>    
-        <Navbar.Brand><img src='..\logo192.png' height={50} /></Navbar.Brand>
-        <Nav.Link className='nav-item'>Submit Request</Nav.Link> 
-        <Nav.Link className='nav-item'>Get Price Estimate</Nav.Link>
-   </Nav>)
+    <div className="header">
+        <Dropdown className="nav-bar">
+            <Dropdown.Toggle variant="success" >
+            <FaBars size={40} />
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+                <Dropdown.Item className='nav-item' href="./">Get Price Estimate</Dropdown.Item>
+                <Dropdown.Item href="./register">Submit Request</Dropdown.Item>
+            </Dropdown.Menu>
+        </Dropdown>
+        <Dropdown>
+        <FaUserCircle className="user-icon" size={70}/>
+        </Dropdown>
+    </div>
+    )
 }
 
 export default Header;
