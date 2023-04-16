@@ -34,7 +34,7 @@ const Login: React.FC = () => {
         const token = Cookies.get('accessToken');
         if (token) {
             axios
-                .get('http://localhost:8080/api/v1/auth/check-token', {
+                .get(process.env.REACT_APP_RECYCLE_API_URL+'/api/v1/auth/check-token', {
                     headers: { Authorization: `Bearer ${token}` },
                 })
                 .then(() => setIsLoggedIn(true))
@@ -68,7 +68,7 @@ const Login: React.FC = () => {
         // });
 
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/auth/login', {
+            const response = await axios.post(process.env.REACT_APP_RECYCLE_API_URL+'/api/v1/auth/login', {
                 email: formData.email, // Use the email value for the userName parameter
                 password: formData.password
             }, {

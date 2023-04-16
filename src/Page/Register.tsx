@@ -114,8 +114,8 @@ const RegisterAccount = () => {
             && isBlockValid && isPostCodeValid && isFloorNoValid && isUnitNoValid)
         {
             try {
-                console.log('calling register API');
-                const response = await axios.post('http://localhost:8080/api/v1/user/register', {
+                console.log('calling register API ('+process.env.NODE_ENV +') '+process.env.REACT_APP_RECYCLE_API_URL+'/api/v1/user/register');
+                const response = await axios.post(process.env.REACT_APP_RECYCLE_API_URL+'/api/v1/user/register', {
                     email: formData.email, 
                     password: formData.password,
                     firstName: formData.firstName,
