@@ -6,7 +6,7 @@ import { FaBars, FaUserCircle } from "react-icons/fa";
 
 const Header = () => {
     return (
-    <div className="header">
+    <div>
         <Dropdown className="nav-bar">
             <Dropdown.Toggle variant="success" >
             <FaBars size={40} />
