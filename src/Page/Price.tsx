@@ -227,6 +227,7 @@ const Price: React.FC = () => {
                                     name="quantity"
                                     value={formData.quantity}
                                     onChange={handleInputChange}
+                                    min="0"
                                     // required
                                 />
                             </Form.Group>
