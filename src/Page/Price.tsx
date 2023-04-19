@@ -20,6 +20,7 @@ interface RecycleRequestItem {
 interface RecycleFormState {
     category: string;
     quantity: number;
+    unitOfMeasurement: string;
 }
 
 
@@ -34,10 +35,21 @@ interface ResponseData {
     refreshToken: string;
 }
 
+const getUnitOfMeasurement = (category: string) =>{
+    console.log("getUnitOfMeasurement for category:", category)
+    try{
+        return CATEGORY_DATA.filter(c => c.name == category)[0].unitOfMeasurement;
+    } catch (error) {
+        console.error(error);
+    }
+    return "";
+}
+
 const Price: React.FC = () => {
     const recycleFormData: RecycleFormState = {
         category: '',
         quantity: 0,
+        unitOfMeasurement: 'unit'
     };
 
     // const initialFormData: LoginFormState = {
@@ -77,13 +89,26 @@ const Price: React.FC = () => {
         console.log("handleInputChange called - event:", event);
         const { name, value } = event.target;
         console.log("handleInputChange called - name: ", name, ", value: ", value);
-        setFormData({ ...formData, [name]: value });
+
+        if(name=='category'){
+            console.log('changing category')
+            setFormData({ ...formData, [name]: value, 'unitOfMeasurement': getUnitOfMeasurement(value) });
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
         console.log("handleInputChange called - formData", formData);
+        
     };
 
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log("form submit")
+        console.log("form submit, formData", formData)
+
+
+        if (formData.category=='' || formData.quantity <= 0) {
+            console.error("invalid form input");
+            return;
+        }
         setRecycleRequest([...recycleRequest, {category: formData.category, quantity: formData.quantity}])
         console.log("form submit, recycleRequest: ", recycleRequest);
         // Clear the responseData and errorMessage
@@ -119,7 +144,7 @@ const Price: React.FC = () => {
     };
 
     return (
-        <Container fluid className="border">
+        <Container fluid className="pt-5">
             {/* <div className="mt-5 border">
                 <h1 className="text-center">Recycle Cart</h1>
                 <h2 className="">Step 1) Get Price Estimate</h2>
@@ -127,13 +152,13 @@ const Price: React.FC = () => {
             {/* <Row className="vh-100 justify-content-center align-items-center"> */}
             <div>
 
-                <div className="mt-5  col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+                <div className="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
 
                     <div className=" ">
                         <h1 className="text-center p-3">Recycle Cart</h1>
                         <h2 className="text-center">Step 1) Get Price Estimate</h2>
                     </div>
-                    <Table striped bordered hover>
+                    <Table bordered hover>
                     <thead>
                         <tr>
                         <th>#</th>
@@ -145,46 +170,29 @@ const Price: React.FC = () => {
                     </thead>
                     <tbody>
                         {recycleRequest.map((item, index)=>
-                            <>
-                                <tr>
+                                <tr key={index}>
                                     <td>{index+1}</td>
                                     <td>{item.category}</td>
                                     <td>{item.quantity}</td>
-                                    <td>kg</td>
+                                    <td>{getUnitOfMeasurement(item.category)}</td>
                                     <td></td>
                                 </tr>
-                            </>)
+                            )
                         }
-                        {/* <tr>
-                            <td>1</td>
-                            <td>Paper</td>
-                            <td>1</td>
-                            <td>kg</td>
-                            <td>$3.80</td>
-                        </tr>
+                    
                         <tr>
-                            <td>2</td>
-                            <td>Metal</td>
-                            <td>1</td>
-                            <td>kg</td>
-                            <td>$3.80</td>
-                        </tr> */}
-                        
-                        <tr>
-                        {/* <td></td> */}
                         <td colSpan={4}>Total</td>
-                        {/* <td>@twitter</td> */}
                         <td>$1.25</td>
                         </tr>
                     </tbody>
                     </Table>
 
-                    <Form onSubmit={handleFormSubmit}>
+                    <Form className="pt-3" onSubmit={handleFormSubmit}>
                         <h1 className="custom-color text-center">Add Item</h1>
                         <Row>
 
 
-                        <Col>
+                        <Col >
                             <Form.Group controlId="exampleForm.ControlSelect1">
                                 <Form.Label>Category</Form.Label>
                                 <Form.Control
@@ -195,7 +203,7 @@ const Price: React.FC = () => {
                                     onChange={handleInputChange}
                                 >
                                 <option value="">Select an option</option>
-                                { CATEGORY_DATA.map(c => <option key={c.category} value={c.category}>{c.category}</option >) }
+                                { CATEGORY_DATA.map(c => <option key={c.name} value={c.name}>{c.name}</option >) }
                                 </Form.Control>
                             </Form.Group>
                         </Col>
@@ -210,7 +218,7 @@ const Price: React.FC = () => {
                             </Form.Select>
                         </Form.Group> */}
 
-                        <Col>
+                        <Col >
                             <Form.Group controlId="quantity">
                                 <Form.Label>Quantity</Form.Label>
                                 <Form.Control
@@ -222,6 +230,9 @@ const Price: React.FC = () => {
                                     // required
                                 />
                             </Form.Group>
+                        </Col>
+                        <Col xs={2} className="d-flex align-items-end">
+                            <span>{formData.unitOfMeasurement}</span>
                         </Col>
                         {/* <Form.Group controlId="email">
                             <Form.Label>Category</Form.Label>
@@ -246,8 +257,8 @@ const Price: React.FC = () => {
                             />
                         </Form.Group> */}
                         {/* <Button>Add</Button> */}
-                        <Col xs="auto" className='d-flex align-items-end justify-content-end'>
-                            <Button variant="primary" type="submit" >Add</Button>
+                        <Col  xs={2}  className='d-flex align-items-end justify-content-end'>
+                            <Button className="button" variant="primary" type="submit" >Add</Button>
                         </Col>
 
 

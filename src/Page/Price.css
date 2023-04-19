@@ -1,3 +1,7 @@
+*{
+  box-sizing: border-box;
+}
+
 h1, h2, h3 {
   color: #0CA789;
   /* font-weight: bold; */
@@ -71,4 +75,9 @@ h1, h2, h3 {
   background-color: #9bbdf6 !important;
   color: #ffffff !important;
   border: 3px solid #9bbdf6 !important;
+}
+
+.button{
+  width: 90%;
+  min-width: 90px;
 }
