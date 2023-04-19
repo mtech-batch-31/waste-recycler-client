@@ -5,9 +5,9 @@ export const TABLE_DATA = [
 ]
 
 
-export const CATEGORY = [
+export const CATEGORY_DATA = [
     {"category":"Plastic","units":"kg"},
     {"category":"Paper","units":"kg"},
     {"category":"Metal","units":"kg"},
-    {"category":"Cloth","units":"kg"}
+    {"category":"Textile","units":"kg"}
 ]
