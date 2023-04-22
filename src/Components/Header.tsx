@@ -13,8 +13,7 @@ const Header = () => {
     const logout = () =>  
     {
         Cookies.remove('access_token');
-        navigate("/");
-    
+        navigate('/');
     }
     return (
     <Stack direction="horizontal" gap={5} className="header">
