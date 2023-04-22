@@ -5,6 +5,8 @@ import Login from './Page/Login';
 import Price from './Page/Price'
 import RegisterAccount from './Page/Register'
 import logo from './logo.svg';
+import {isLogin} from './utilities/auth'
+
 import './App.css';
 
 const router = createBrowserRouter([
@@ -13,7 +15,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Login />},
       { path: "/register", element: <RegisterAccount />},
-      { path: "/price", element: <Price />}
+      { path: "/price", element: <Price />, loader: isLogin}
     ],
   },
 ]);

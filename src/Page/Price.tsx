@@ -8,7 +8,7 @@ import axios from "axios";
 // import MockAdapter from 'axios-mock-adapter'; // import the mocking library
 import Cookies from "js-cookie";
 import { TABLE_DATA, CATEGORY_DATA, API_PATH } from "../utilities/constants";
-
+import { getToken, removeToken } from "../utilities/auth";
 
 interface RecycleCategoriesResponseItem {
     category: string;
@@ -69,14 +69,8 @@ const Price: React.FC = () => {
     totalPrice: 0,
     items: [],
   };
-  // const initialFormData: LoginFormState = {
-  //     email: '',
-  //     password: '',
-  // };
 
   const recycleRequestEmpty: RecycleRequestItem[] = [];
-  // const [data, setData] = useState<RecycleRequestItem[]>(recycleRequestItems);
-
   const [recycleCategories, setRecycleCategories] = useState<RecycleCategoriesResponseItem[]>([]);
   useState<RecycleRequestItem[]>(recycleRequestEmpty);
   const [recycleRequest, setRecycleRequest] =
@@ -88,20 +82,9 @@ const Price: React.FC = () => {
   // const [formData, setFormData] = useState<LoginFormState>(initialFormData);
   const [responseData, setResponseData] = useState<ResponseData | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-
-  const getToken = () => {
-    const token = Cookies.get("access_token");
-    if (token) {
-        return token;
-    } else {
-      console.log("token not found from Cookie");
-      navigate("/");
-    }
-  }
 
   const validateToken = () => {
-    const token = Cookies.get("access_token");
+    const token = getToken();
     if (token) {
       axios
         .get("http://localhost:8080/api/v1/auth/test", {
@@ -112,7 +95,7 @@ const Price: React.FC = () => {
         })
         .catch((err) => {
             console.error("error when calling categories API",err);
-            Cookies.remove("access_token")
+            removeToken();
         });
     } else {
       console.log("token not found from Cookie");
@@ -123,7 +106,7 @@ const Price: React.FC = () => {
 
   useEffect(() => {
     validateToken();
-    const token = Cookies.get("access_token");
+    const token = getToken();
     if (token) {
       axios
         .get("http://localhost:8080/api/v1/request/categories", {
@@ -221,7 +204,7 @@ const Price: React.FC = () => {
       console.log("price response", response);
 
       if (response.status == 403){
-        Cookies.remove("access_token")
+        removeToken();
         navigate("/");
       }
       setRecyclePriceResponse(response.data);
