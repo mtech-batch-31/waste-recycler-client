@@ -21,42 +21,42 @@ export const TABLE_DATA = [
 
 export const CATEGORY_DATA = [
     {
-        "name": "Battery",
-        "price": 500,
-        "quantity": 0,
-        "unitOfMeasurement": "kg"
+        "category": "Glass",
+        "price": 200,
+        "quantity": 0.0,
+        "unitOfMeasurement": "ton"
     },
     {
-        "name": "Plastic",
-        "price": 100,
-        "quantity": 0,
+        "category": "Electronics",
+        "price": 700,
+        "quantity": 0.0,
         "unitOfMeasurement": "item"
     },
     {
-        "name": "Clothes",
-        "price": 300,
-        "quantity": 0,
+        "category": "Plastic",
+        "price": 100,
+        "quantity": 0.0,
         "unitOfMeasurement": "g"
     },
     {
-        "name": "Paper",
+        "category": "Paper",
         "price": 50,
-        "quantity": 0,
-        "unitOfMeasurement": "box"
-    },
-    {
-        "name": "Electronics",
-        "price": 700,
-        "quantity": 0,
-        "unitOfMeasurement": "item"
-    },
-    {
-        "name": "Glass",
-        "price": 200,
-        "quantity": 0,
+        "quantity": 0.0,
         "unitOfMeasurement": "ton"
+    },
+    {
+        "category": "Battery",
+        "price": 500,
+        "quantity": 0.0,
+        "unitOfMeasurement": "kg"
+    },
+    {
+        "category": "Clothes",
+        "price": 300,
+        "quantity": 0.0,
+        "unitOfMeasurement": "g"
     }
-]
+];
 
 
 export const MOCK_PRICING_RESP = {
