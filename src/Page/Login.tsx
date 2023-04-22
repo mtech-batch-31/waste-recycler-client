@@ -79,7 +79,7 @@ const Login: React.FC = () => {
             }, {
                 withCredentials: true, // Add the withCredentials flag
             });
-
+            console.log('login response', response);
             // Retrieve the token from the response
             const token = response.data.accessToken;
             Cookies.set('access_token', token, {path:'/'});

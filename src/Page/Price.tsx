@@ -7,7 +7,7 @@ import './Price.css';
 import axios from 'axios';
 // import MockAdapter from 'axios-mock-adapter'; // import the mocking library
 import Cookies from 'js-cookie';
-import { TABLE_DATA, CATEGORY_DATA } from '../utilities/constants';
+import { TABLE_DATA, CATEGORY_DATA, API_PATH } from '../utilities/constants';
 
 
 interface RecycleRequestItem {
@@ -124,23 +124,38 @@ const Price: React.FC = () => {
         //         'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJzY2dsd3NqQDE2My5jb20iLCJpYXQiOjE2ODA2NzM0MzAsImV4cCI6MTY4MDY3NDMzMH0.sCts66QMeHgsk2daV2qUfCy4bZee625QY73jGsy7uQLo0orNo6W7BP2gijFHHBrg',
         //     refreshToken: 'd7c039c1-2bd2-476b-a2fe-da0367d4c94f',
         // });
-
-        // try {
-        //     const response = await axios.post('http://localhost:8080/api/v1/auth/login', {
-        //         email: formData.email, // Use the email value for the userName parameter
-        //         password: formData.password
-        //     }, {
-        //         withCredentials: true, // Add the withCredentials flag
-        //     });
-
+        const token = Cookies.get('access_token');
+        if (token) {
+            console.log('token found from Cookies', token);
+            // axios
+            //     .get('http://localhost:8080/api/v1/auth/check-token', {
+            //         headers: { Authorization: `Bearer ${token}` },
+            //     })
+            //     .then(() => setIsLoggedIn(true))
+            //     .catch(() => Cookies.remove('accessToken'));
+        } else {
+            console.log('token not found')
+        }
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'Access-Control-Allow-Origin': '*'
+          };
+        const payload = {
+            categories: recycleRequest,
+        };
+        console.log("headers", headers);
+        console.log("payload", payload);
+        try {
+            const response = await axios.post(process.env.REACT_APP_RECYCLE_API_URL + API_PATH.PRICE,  payload , {headers: headers});
+            console.log("price response", response);
         //     // Retrieve the token from the response
         //     const token = response.data.accessToken;
         //     Cookies.set('access_token', token);
         //     setResponseData(response.data);
-        // } catch (error) {
-        //     setErrorMessage('Invalid email or password');
-        //     removeToken();
-        // }
+        } catch (error) {
+            console.log("error when calling price api",error);
+        }
     };
 
     return (
@@ -228,6 +243,7 @@ const Price: React.FC = () => {
                                     value={formData.quantity}
                                     onChange={handleInputChange}
                                     min="0"
+                                    step=".01"
                                     // required
                                 />
                             </Form.Group>
