@@ -16,18 +16,23 @@
     font-weight: bold;
     font-size: larger;
     vertical-align: bottom;
-    justify-content: flex-end;
+    text-decoration: none;
 }
-
-a.nav-item{
-    color: #051613;
+.nav-item-active {
+    font-weight: bold;
+    font-size: larger;
+    vertical-align: bottom;
+    color: #0CA789;
+    text-decoration: none;
 }
-
-.nav-item:active {
-    background-color: #0CA789;
-    color: #c9ce7f !important;
-  }
 .user-icon {
-    float: right;
-    padding: 8px;
+    font-size: 38px;
+    font-weight: bolder;
+    margin-right: 50px;
+}
+.user-icon:hover {
+    font-size: 38px;
+    font-weight: bolder;
+    margin-right: 50px;
+    cursor: pointer;
 }

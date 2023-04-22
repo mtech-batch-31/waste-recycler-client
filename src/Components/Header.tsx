@@ -1,30 +1,36 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-
+import Stack from 'react-bootstrap/Stack';
 import './Header.css'
-import { Link } from "react-router-dom"
-import { Fragment } from 'react';
-import { FaBars, FaUserCircle } from "react-icons/fa";
+import { NavLink, useNavigate } from "react-router-dom"
+import { IoIosLogOut } from "react-icons/io"
 import logo from '../Assets/logo512.png';
+import Cookies from 'js-cookie';
 
 const Header = () => {
+    let hasTokenValue = Cookies.get('access_token') !== undefined;
+    //console.log(hasTokenValue);
+    const navigate = useNavigate();
+
+    const logout = () =>  
+    {
+        Cookies.remove('access_token');
+        navigate("/");
+    
+    }
     return (
-    <Navbar  className="header"  expand="lg" sticky='top'>
-        <Container>
-       
-            <Navbar.Brand><img src={logo}></img></Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className='nav'>
-                    <Nav.Link  className='nav-item' href="/Price">Price Estimate</Nav.Link>
-                    <Nav.Link  className='nav-item' href="/Register">Register</Nav.Link>
-                    <Nav.Link  className='nav-item' >Logout</Nav.Link>
-                    <Nav.Link  className='nav-item' href="/">Login/Register</Nav.Link>
-                </Nav>
-            </Navbar.Collapse>
-        </Container>
-    </Navbar >
+    <Stack direction="horizontal" gap={5} className="header">
+            <div>
+                <img src={logo}></img>
+            </div>
+            <div>
+                { hasTokenValue &&<NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/Price">Price Estimate</NavLink>}
+            </div>
+            <div className="ms-auto">
+                {!hasTokenValue && <NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/">Login/Register</NavLink>}
+            </div>
+            <div>
+                { hasTokenValue && <IoIosLogOut aria-label='logout' className='user-icon' onClick={logout} />}
+            </div>
+    </Stack>
     )
 }
 

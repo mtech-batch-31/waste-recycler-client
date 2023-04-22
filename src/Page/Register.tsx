@@ -220,9 +220,9 @@ const RegisterAccount = () => {
                 <p></p>
                 <Alert variant={registerResult.isSuccess? 'success': 'danger'} show={registerResult.message.length > 0}>{registerResult.message}</Alert>
             </Row>
-            <Row className="d-flex justify-content-between align-items-center">
+            <Row className="d-flex align-items-center">
                 <Col>
-                    <Link className="App-link" to="..">Return to Login page</Link>
+                    <Link to="/"><Button variant="primary" className="btn-custom-outline">Back to Login</Button></Link>
                 </Col>
                 <Col className="d-flex justify-content-end">
                     <Button variant="primary" type="submit" className="btn-custom">Register</Button>

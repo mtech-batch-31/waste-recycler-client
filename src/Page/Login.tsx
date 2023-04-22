@@ -82,7 +82,7 @@ const Login: React.FC = () => {
 
             // Retrieve the token from the response
             const token = response.data.accessToken;
-            Cookies.set('access_token', token);
+            Cookies.set('access_token', token, {path:'/'});
             setResponseData(response.data);
             await timeout(1000); //for 1 sec delay
             setIsLoggedIn(true);
