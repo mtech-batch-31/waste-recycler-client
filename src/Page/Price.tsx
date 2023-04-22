@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Form, Container, Row, Col, Table } from 'react-bootstrap';
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import './Price.css';
@@ -10,10 +10,25 @@ import Cookies from 'js-cookie';
 import { TABLE_DATA, CATEGORY_DATA, API_PATH } from '../utilities/constants';
 
 
+interface RecyclePriceResponse {
+    returnCode: string,
+    message: string
+    totalPrice: number,
+    items: RecyclePriceResponseItem[]
+}
+
+
+interface RecyclePriceResponseItem {
+    name: string;
+    quantity: number;
+    unitPrice: number;
+    subTotalPrice: number;
+}
+
 interface RecycleRequestItem {
     category: string;
     quantity: number;
-    // price: number;
+    description: string;
 }
 
 
@@ -21,6 +36,7 @@ interface RecycleFormState {
     category: string;
     quantity: number;
     unitOfMeasurement: string;
+    description: string;
 }
 
 
@@ -46,12 +62,20 @@ const getUnitOfMeasurement = (category: string) =>{
 }
 
 const Price: React.FC = () => {
+
+    const navigate = useNavigate();
     const recycleFormData: RecycleFormState = {
         category: '',
         quantity: 0,
-        unitOfMeasurement: 'unit'
+        unitOfMeasurement: 'unit',
+        description: ''
     };
-
+    const recyclePriceResp: RecyclePriceResponse = {
+        returnCode: "",
+        message: "",
+        totalPrice: 0,
+        items: []
+    }
     // const initialFormData: LoginFormState = {
     //     email: '',
     //     password: '',
@@ -60,6 +84,8 @@ const Price: React.FC = () => {
     const recycleRequestItems: RecycleRequestItem[] = [];
     // const [data, setData] = useState<RecycleRequestItem[]>(recycleRequestItems);
     const [recycleRequest, setRecycleRequest] = useState<RecycleRequestItem[]>(recycleRequestItems);
+
+    const [recyclePriceResponse, setRecyclePriceResponse] = useState<RecyclePriceResponse>(recyclePriceResp);
     const [formData, setFormData] = useState<RecycleFormState>(recycleFormData);
     // const [formData, setFormData] = useState<LoginFormState>(initialFormData);
     const [responseData, setResponseData] = useState<ResponseData | null>(null);
@@ -67,14 +93,17 @@ const Price: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
     useEffect(() => {
-        const token = Cookies.get('accessToken');
+        const token = Cookies.get('access_token');
         if (token) {
             axios
-                .get('http://localhost:8080/api/v1/auth/check-token', {
+                .get('http://localhost:8080/api/v1/auth/test', {
                     headers: { Authorization: `Bearer ${token}` },
                 })
                 .then(() => setIsLoggedIn(true))
-                .catch(() => Cookies.remove('accessToken'));
+                .catch(() => Cookies.remove('access_token'));
+        } else {
+            console.log("token not found from Cookie");
+            navigate("/");
         }
     }, []);
 
@@ -109,11 +138,12 @@ const Price: React.FC = () => {
             console.error("invalid form input");
             return;
         }
-        setRecycleRequest([...recycleRequest, {category: formData.category, quantity: formData.quantity}])
+        const newRecycleRequest = [...recycleRequest, {category: formData.category, quantity: formData.quantity, description: formData.description}];
+        setRecycleRequest(newRecycleRequest);
         console.log("form submit, recycleRequest: ", recycleRequest);
         // Clear the responseData and errorMessage
-        setResponseData(null);
-        setErrorMessage('');
+        // setResponseData(null);
+        // setErrorMessage('');
 
         // Create a new instance of the mocking library and set it up to intercept the axios.post call
         // const mock = new MockAdapter(axios);
@@ -142,13 +172,14 @@ const Price: React.FC = () => {
             'Access-Control-Allow-Origin': '*'
           };
         const payload = {
-            categories: recycleRequest,
+            data: newRecycleRequest,
         };
         console.log("headers", headers);
         console.log("payload", payload);
         try {
             const response = await axios.post(process.env.REACT_APP_RECYCLE_API_URL + API_PATH.PRICE,  payload , {headers: headers});
             console.log("price response", response);
+            setRecyclePriceResponse(response.data);
         //     // Retrieve the token from the response
         //     const token = response.data.accessToken;
         //     Cookies.set('access_token', token);
@@ -160,11 +191,6 @@ const Price: React.FC = () => {
 
     return (
         <Container fluid className="pt-5">
-            {/* <div className="mt-5 border">
-                <h1 className="text-center">Recycle Cart</h1>
-                <h2 className="">Step 1) Get Price Estimate</h2>
-            </div> */}
-            {/* <Row className="vh-100 justify-content-center align-items-center"> */}
             <div>
 
                 <div className="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
@@ -180,6 +206,7 @@ const Price: React.FC = () => {
                         <th>Category</th>
                         <th>Quantity</th>
                         <th>Unit</th>
+                        <th>Description</th>
                         <th>Price</th>
                         </tr>
                     </thead>
@@ -190,14 +217,15 @@ const Price: React.FC = () => {
                                     <td>{item.category}</td>
                                     <td>{item.quantity}</td>
                                     <td>{getUnitOfMeasurement(item.category)}</td>
-                                    <td></td>
+                                    <td>{item.description}</td>
+                                    <td>${recyclePriceResponse && recyclePriceResponse.items && recyclePriceResponse.items[index] && recyclePriceResponse.items[index].subTotalPrice }</td>
                                 </tr>
                             )
                         }
                     
                         <tr>
-                        <td colSpan={4}>Total</td>
-                        <td>$1.25</td>
+                            <td colSpan={5}>Total</td>
+                            <td>${recyclePriceResponse && recyclePriceResponse.totalPrice}</td>
                         </tr>
                     </tbody>
                     </Table>
@@ -233,12 +261,12 @@ const Price: React.FC = () => {
                             </Form.Select>
                         </Form.Group> */}
 
-                        <Col >
+                        <Col xs={2}>
                             <Form.Group controlId="quantity">
                                 <Form.Label>Quantity</Form.Label>
                                 <Form.Control
                                     type="number"
-                                    placeholder="E.g. 1 kg"
+                                    // placeholder="E.g. 1 kg"
                                     name="quantity"
                                     value={formData.quantity}
                                     onChange={handleInputChange}
@@ -248,8 +276,21 @@ const Price: React.FC = () => {
                                 />
                             </Form.Group>
                         </Col>
-                        <Col xs={2} className="d-flex align-items-end">
+                        <Col xs={1} className="d-flex align-items-end">
                             <span>{formData.unitOfMeasurement}</span>
+                        </Col>
+                        <Col >
+                            <Form.Group controlId="description">
+                                <Form.Label>Description</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="e.g. 10 plastic bottles"
+                                    name="description"
+                                    value={formData.description}
+                                    onChange={handleInputChange}
+                                    // required
+                                />
+                            </Form.Group>
                         </Col>
                         {/* <Form.Group controlId="email">
                             <Form.Label>Category</Form.Label>

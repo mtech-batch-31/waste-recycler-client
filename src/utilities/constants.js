@@ -1,7 +1,7 @@
 export const API_PATH = {
     LOGIN : "/api/v1/auth/login",
     REGISTER : "/api/v1/user/register",
-    PRICE : "/api/v1/request/categories",
+    PRICE : "/api/v1/request/price",
 }
 
 export const TABLE_DATA = [
@@ -57,3 +57,24 @@ export const CATEGORY_DATA = [
         "unitOfMeasurement": "ton"
     }
 ]
+
+
+export const MOCK_PRICING_RESP = {
+    "returnCode": "00",
+    "message": "The request has been successfully processed",
+    "totalPrice": 800,
+    "items": [
+        {
+            "name": "Plastic",
+            "quantity": 1,
+            "price": 100,
+            "totalPrice": 100
+        },
+        {
+            "name": "Electronics",
+            "quantity": 1,
+            "price": 700,
+            "totalPrice": 700
+        }
+    ]
+}

@@ -7,6 +7,7 @@ import './Login.css';
 import axios from 'axios';
 // import MockAdapter from 'axios-mock-adapter'; // import the mocking library
 import Cookies from 'js-cookie';
+import { API_PATH } from '../utilities/constants';
 
 interface LoginFormState {
     email: string;
@@ -73,7 +74,7 @@ const Login: React.FC = () => {
         // });
 
         try {
-            const response = await axios.post(process.env.REACT_APP_RECYCLE_API_URL+'/api/v1/auth/login', {
+            const response = await axios.post(process.env.REACT_APP_RECYCLE_API_URL+API_PATH.LOGIN, {
                 email: formData.email, // Use the email value for the userName parameter
                 password: formData.password
             }, {
