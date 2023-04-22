@@ -4,15 +4,16 @@ import { NavLink, useNavigate } from "react-router-dom"
 import { IoIosLogOut } from "react-icons/io"
 import logo from '../Assets/logo512.png';
 import Cookies from 'js-cookie';
+import {ACCESS_TOKEN} from '../utilities/constants'
 
 const Header = () => {
-    let hasTokenValue = Cookies.get('access_token') !== undefined;
+    let hasTokenValue = Cookies.get(ACCESS_TOKEN) !== undefined;
     //console.log(hasTokenValue);
     const navigate = useNavigate();
 
     const logout = () =>  
     {
-        Cookies.remove('access_token');
+        Cookies.remove(ACCESS_TOKEN);
         navigate('/');
     }
     return (

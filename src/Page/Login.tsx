@@ -7,6 +7,7 @@ import './Login.css';
 import axios from 'axios';
 // import MockAdapter from 'axios-mock-adapter'; // import the mocking library
 import Cookies from 'js-cookie';
+import {ACCESS_TOKEN} from '../utilities/constants'
 
 interface LoginFormState {
     email: string;
@@ -32,19 +33,19 @@ const Login: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = Cookies.get('accessToken');
+        const token = Cookies.get(ACCESS_TOKEN);
         if (token) {
             axios
                 .get(process.env.REACT_APP_RECYCLE_API_URL+'/api/v1/auth/check-token', {
                     headers: { Authorization: `Bearer ${token}` },
                 })
                 .then(() => setIsLoggedIn(true))
-                .catch(() => Cookies.remove('accessToken'));
+                .catch(() => Cookies.remove(ACCESS_TOKEN));
         }
     }, []);
 
     const removeToken = () => {
-        Cookies.remove('access_token');
+        Cookies.remove(ACCESS_TOKEN);
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +83,7 @@ const Login: React.FC = () => {
             console.log('login response', response);
             // Retrieve the token from the response
             const token = response.data.accessToken;
-            Cookies.set('access_token', token, {path:'/'});
+            Cookies.set(ACCESS_TOKEN, token, {path:'/'});
             setResponseData(response.data);
             await timeout(1000); //for 1 sec delay
             setIsLoggedIn(true);

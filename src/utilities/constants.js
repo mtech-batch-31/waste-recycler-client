@@ -10,14 +10,13 @@ export const TABLE_DATA = [
 
 ]
 
-
+export const ACCESS_TOKEN = "accessToken"
 // export const CATEGORY_DATA = [
 //     {"category":"Plastic","units":"kg"},
 //     {"category":"Paper","units":"kg"},
 //     {"category":"Metal","units":"kg"},
 //     {"category":"Textile","units":"kg"}
 // ]
-
 
 export const CATEGORY_DATA = [
     {
