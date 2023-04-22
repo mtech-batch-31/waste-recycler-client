@@ -120,7 +120,7 @@ const RegisterAccount = () => {
                     password: formData.password,
                     firstName: formData.firstName,
                     lastName: formData.lastName,
-                    contactNumber: formData.blockNo,
+                    contactNumber: formData.contactNumber,
                     address: `Blk ${formData.blockNo}, ${formData.street}, #${formData.floorNo}-{${formData.unitNo}}`,
                     postalCode: formData.postalCode
                 });

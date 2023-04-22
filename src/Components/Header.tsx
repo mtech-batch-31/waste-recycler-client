@@ -1,25 +1,30 @@
-import {Dropdown} from 'react-bootstrap'
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+
 import './Header.css'
 import { Link } from "react-router-dom"
 import { Fragment } from 'react';
 import { FaBars, FaUserCircle } from "react-icons/fa";
+import logo from '../Assets/logo512.png';
 
 const Header = () => {
     return (
-    <div className="header">
-        <Dropdown className="nav-bar">
-            <Dropdown.Toggle variant="success" >
-            <FaBars size={40} />
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-                <Dropdown.Item className='nav-item' href="./price">Get Price Estimate</Dropdown.Item>
-                <Dropdown.Item href="./register">Submit Request</Dropdown.Item>
-            </Dropdown.Menu>
-        </Dropdown>
-        <Dropdown>
-        <FaUserCircle className="user-icon" size={70}/>
-        </Dropdown>
-    </div>
+    <Navbar  className="header"  expand="lg" sticky='top'>
+        <Container>
+       
+            <Navbar.Brand><img src={logo}></img></Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className='nav'>
+                    <Nav.Link  className='nav-item' href="./Price">Price Estimate</Nav.Link>
+                    <Nav.Link  className='nav-item' href="./Register">Register</Nav.Link>
+                    <Nav.Link  className='nav-item' >Logout</Nav.Link>
+                    <Nav.Link  className='nav-item' href="./Login">Login/Register</Nav.Link>
+                </Nav>
+            </Navbar.Collapse>
+        </Container>
+    </Navbar >
     )
 }
 
