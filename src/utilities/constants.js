@@ -1,3 +1,9 @@
+export const API_PATH = {
+    LOGIN : "/api/v1/auth/login",
+    REGISTER : "/api/v1/user/register",
+    PRICE : "/api/v1/request/categories",
+}
+
 export const TABLE_DATA = [
     {"category":"plastic","quantity":1,"units":"kg"},
     {"category":"plastic","quantity":1,"units":"kg"},
