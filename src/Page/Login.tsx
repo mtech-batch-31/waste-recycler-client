@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Form, Container, Row, Col } from 'react-bootstrap';
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import './Login.css';
@@ -29,6 +29,7 @@ const Login: React.FC = () => {
     const [responseData, setResponseData] = useState<ResponseData | null>(null);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const token = Cookies.get('accessToken');
@@ -50,6 +51,10 @@ const Login: React.FC = () => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
     };
+
+    function timeout(delay: number) {
+        return new Promise( res => setTimeout(res, delay) );
+    }
 
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -79,6 +84,9 @@ const Login: React.FC = () => {
             const token = response.data.accessToken;
             Cookies.set('access_token', token);
             setResponseData(response.data);
+            await timeout(1000); //for 1 sec delay
+            setIsLoggedIn(true);
+            navigate("/price");
         } catch (error) {
             setErrorMessage('Invalid email or password');
             removeToken();

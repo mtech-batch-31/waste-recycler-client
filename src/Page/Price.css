@@ -1,0 +1,83 @@
+*{
+  box-sizing: border-box;
+}
+
+h1, h2, h3 {
+  color: #0CA789;
+  /* font-weight: bold; */
+}
+
+.custom-color {
+  color: #0CA789;
+}
+.btn-custom {
+  background-color: #0CA789;
+  color: #ffffff;
+  border: 3px solid #0CA789;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  width: 15vmin;
+  min-width: 60px;
+  margin-top: 5px;
+  padding: 4px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.btn-custom:hover {
+  background-color: #ededed;
+  color: #000000;
+  border: 3px solid #ededed;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  width: 15vmin;
+  min-width: 60px;
+  padding: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.btn-custom:active {
+  background-color: #9bbdf6 !important;
+  color: #ffffff !important;
+  border: 3px solid #9bbdf6 !important;
+}
+.btn-custom-outline {
+  background-color: #ffffff;
+  color: #0CA789;
+  border: 3px solid #0CA789;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  width: 15vmin;
+  margin-top: 10px;
+  min-width: 77px;
+  margin-top: 5px;
+  padding: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.btn-custom-outline:hover {
+  background-color: #ededed;
+  color: #000000;
+  border: 3px solid #ededed;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  width: 15vmin;
+  min-width: 80px;
+  padding: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.btn-custom-outline:active {
+  background-color: #9bbdf6 !important;
+  color: #ffffff !important;
+  border: 3px solid #9bbdf6 !important;
+}
+
+.button{
+  width: 90%;
+  min-width: 90px;
+}
