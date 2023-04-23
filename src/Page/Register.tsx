@@ -3,7 +3,7 @@ import {Link} from "react-router-dom"
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import "../../node_modules/bootstrap/dist/js/bootstrap.bundle.min"
 import { Button, Form, Container, Row, Col, Alert} from 'react-bootstrap';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 interface RegisterAccountState 
 {
@@ -23,6 +23,11 @@ interface RegisterResult
 {
     isSuccess: boolean;
     message: string;
+}
+interface APIResponse
+{
+    message: string;
+    returnCode: string;
 }
 const RegisterAccount = () => {
     const initFormState: RegisterAccountState = {
@@ -124,6 +129,7 @@ const RegisterAccount = () => {
                     address: `Blk ${formData.blockNo}, ${formData.street}, #${formData.floorNo}-{${formData.unitNo}}`,
                     postalCode: formData.postalCode
                 });
+                console.log(response);
                 if(response.status !== 200) //register unsuccess
                 {
                     setRegisterResult({isSuccess: false, message: "Error when registering. Please try again."});
@@ -135,8 +141,13 @@ const RegisterAccount = () => {
                 }
                 
             } catch (error) 
-            {
-                setRegisterResult({isSuccess: false, message: "Error when registering. Please try again."});
+            {   const err = error as AxiosError;
+                const apiResponse = err.response?.data as APIResponse
+                //console.log(err.response?.data);
+                if(apiResponse?.message)
+                    setRegisterResult({isSuccess: false, message: apiResponse.message});
+                else
+                    setRegisterResult({isSuccess: false, message: "Error when registering. Please try again."});
                 console.log("Error when calling API.")
                 console.log(error);
             }
