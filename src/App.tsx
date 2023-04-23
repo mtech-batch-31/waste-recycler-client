@@ -3,6 +3,7 @@ import { RouterProvider, createBrowserRouter,Route, BrowserRouter  as Router } f
 import Layout from './Page/Layout';
 import Login from './Page/Login';
 import Price from './Page/Price'
+import SubmitRequest  from './Page/SubmitRequest';
 import RegisterAccount from './Page/Register'
 import logo from './logo.svg';
 import {isLogin} from './utilities/auth'
@@ -15,7 +16,8 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Login />},
       { path: "/register", element: <RegisterAccount />},
-      { path: "/price", element: <Price />, loader: isLogin}
+      { path: "/price", element: <Price />, loader: isLogin},
+      { path: "/submitRequest", element: <SubmitRequest />, loader: isLogin}
     ],
   },
 ]);

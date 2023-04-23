@@ -32,6 +32,7 @@ interface RecyclePriceResponseItem {
 interface RecycleRequestItem {
   category: string;
   quantity: number;
+  unitOfMeasurement: string;
   description: string;
 }
 
@@ -82,6 +83,7 @@ const Price: React.FC = () => {
   // const [formData, setFormData] = useState<LoginFormState>(initialFormData);
   const [responseData, setResponseData] = useState<ResponseData | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
+
 
   const validateToken = () => {
     const token = getToken();
@@ -175,6 +177,7 @@ const Price: React.FC = () => {
         category: formData.category,
         quantity: formData.quantity,
         description: formData.description,
+        unitOfMeasurement: formData.unitOfMeasurement,
       },
     ];
     setRecycleRequest(newRecycleRequest);
@@ -341,15 +344,13 @@ const Price: React.FC = () => {
             >
               Clear
             </Button>
+            <Link to="/submitRequest" state={{recycleRequestPass: recycleRequest}}>
             <Button
               className="mx-2 button"
               variant="outline-success"
-              onClick={() => {
-                console.log("proceed");
-              }}
             >
               Proceed
-            </Button>
+            </Button></Link>
           </div>
         </div>
       </div>
