@@ -41,6 +41,7 @@ interface RecycleFormState {
   quantity: number;
   unitOfMeasurement: string;
   description: string;
+  promoCode: string;
 }
 
 // interface LoginFormState {
@@ -63,6 +64,7 @@ const Price: React.FC = () => {
     quantity: 0,
     unitOfMeasurement: "unit",
     description: "",
+    promoCode: ""
   };
   const recyclePriceRespEmpty: RecyclePriceResponse = {
     returnCode: "",
@@ -79,6 +81,7 @@ const Price: React.FC = () => {
 
   const [recyclePriceResponse, setRecyclePriceResponse] =
     useState<RecyclePriceResponse>(recyclePriceRespEmpty);
+    const [promoCode, setPromoCode] = useState<string>("");
   const [formData, setFormData] = useState<RecycleFormState>(recycleFormDataEmpty);
   // const [formData, setFormData] = useState<LoginFormState>(initialFormData);
   const [responseData, setResponseData] = useState<ResponseData | null>(null);
@@ -180,9 +183,10 @@ const Price: React.FC = () => {
         unitOfMeasurement: formData.unitOfMeasurement,
       },
     ];
+    setPromoCode(formData.promoCode);
     setRecycleRequest(newRecycleRequest);
     console.log("form submit, recycleRequest: ", recycleRequest);
-    const token = Cookies.get("access_token");
+    const token = getToken();
     if (token) {
       console.log("token found from Cookies", token);
     } else {
@@ -193,9 +197,19 @@ const Price: React.FC = () => {
       Authorization: `Bearer ${token}`,
       "Access-Control-Allow-Origin": "*",
     };
-    const payload = {
-      data: newRecycleRequest,
-    };
+
+    let payload;
+    if (promoCode){
+      payload = {
+        promoCode: formData.promoCode,
+        data: newRecycleRequest,
+      };
+    } else {
+      payload = {
+        promoCode: "",
+        data: newRecycleRequest,
+      };
+    }
     console.log("headers", headers);
     console.log("payload", payload);
     try {
@@ -292,7 +306,7 @@ const Price: React.FC = () => {
                     name="quantity"
                     value={formData.quantity}
                     onChange={handleInputChange}
-                    min="0"
+                    min="0.1"
                     step=".01"
                     // required
                   />
@@ -323,7 +337,44 @@ const Price: React.FC = () => {
                 </Button>
               </Col>
 
+
             </Row>
+
+            <div className="d-flex mt-3">
+                  
+                  <Form.Group controlId="promocode">
+                    <Form.Label>Promo Code</Form.Label>
+                    <Form.Control
+                      type="text"
+                      // placeholder="Promo Code"
+                      name="promoCode"
+                      value={formData.promoCode}
+                      onChange={handleInputChange}
+                      // required
+                    />
+                  </Form.Group>
+                  <div className=" d-flex mx-3">
+                    <span className=" align-self-end">Promo Code Applied: {promoCode}</span>
+                  </div>
+            </div>
+            {/* <Row>
+              <Col>
+                <Form.Group controlId="description">
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="e.g. 10 plastic bottles"
+                      name="description"
+                      value={formData.description}
+                      onChange={handleInputChange}
+                      // required
+                    />
+                  </Form.Group>
+              </Col>
+              
+              <Col>
+              </Col>
+            </Row> */}
             {responseData && (
               <div className="text-success mr-2 d-inline-block">
                 {responseData.message}
@@ -344,13 +395,14 @@ const Price: React.FC = () => {
             >
               Clear
             </Button>
-            <Link to="/submitRequest" state={{recycleRequestPass: recycleRequest}}>
+            <Link className="mx-2 button" to="/submitRequest" state={{recycleRequestPass: recycleRequest}}>
             <Button
-              className="mx-2 button"
+              className="w-100"
               variant="outline-success"
             >
               Proceed
-            </Button></Link>
+            </Button>
+            </Link>
           </div>
         </div>
       </div>
