@@ -92,7 +92,7 @@ const Price: React.FC = () => {
     const token = getToken();
     if (token) {
       axios
-        .get("http://localhost:8080/api/v1/auth/test", {
+        .get(`${process.env.REACT_APP_RECYCLE_API_URL}/api/v1/auth/test`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
@@ -114,7 +114,7 @@ const Price: React.FC = () => {
     const token = getToken();
     if (token) {
       axios
-        .get("http://localhost:8080/api/v1/request/categories", {
+        .get(`${process.env.REACT_APP_RECYCLE_API_URL}/api/v1/request/categories`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
@@ -341,7 +341,7 @@ const Price: React.FC = () => {
             </Row>
 
             <div className="d-flex mt-3">
-                  
+
                   <Form.Group controlId="promocode">
                     <Form.Label>Promo Code</Form.Label>
                     <Form.Control
@@ -371,7 +371,7 @@ const Price: React.FC = () => {
                     />
                   </Form.Group>
               </Col>
-              
+
               <Col>
               </Col>
             </Row> */}
