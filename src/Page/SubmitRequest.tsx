@@ -3,6 +3,7 @@ import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios, { AxiosError } from "axios";
+import { getToken } from "../utilities/auth";
 
 interface RecycleRequestItem {
     category: string;
@@ -34,8 +35,8 @@ const SubmitRequest = () => {
     //console.log(recycleRequestPass);
     const initialRequest:RecycleRequest = {email: "", contactPerson:'', contactNumber:'', collectionDate: '', promoCode: '', data: recycleRequest} 
     const [request, setRequest] = useState<RecycleRequest>(initialRequest);
-    console.log(request);
-
+    //console.log(request);
+    const token = getToken();
     const [requestResult, setRequestResult] = useState<String>('');
 
     const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,10 +65,14 @@ const SubmitRequest = () => {
     const submitRequest = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         //validate request request
+        //console.log('Submit Request token: '+token);
+        //console.log(request)
         try
         {
             console.log('Submitting Request to '+process.env.REACT_APP_RECYCLE_API_URL+'/api/v1/request/recycle')
-            const response = await axios.post(process.env.REACT_APP_RECYCLE_API_URL+'/api/v1/request/recycle', recycleRequest);
+            const response = await axios.post(process.env.REACT_APP_RECYCLE_API_URL+'/api/v1/request/recycle', request, {
+                headers: { Authorization: `Bearer ${token}` },
+              });
             const apiResponse = response?.data as APIResponse
             console.log(response);
             if(apiResponse?.message)
