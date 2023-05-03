@@ -18,8 +18,11 @@ const Header = () => {
     }
     return (
     <Stack direction="horizontal" gap={5} className="header">
-            <div>
+            <div className="mx-2">
                 <img src={logo}></img>
+            </div>
+            <div>
+                { hasTokenValue &&<NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/Home">Home</NavLink>}
             </div>
             <div>
                 { hasTokenValue &&<NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/Price">Price Estimate</NavLink>}

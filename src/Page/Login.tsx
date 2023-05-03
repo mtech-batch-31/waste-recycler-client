@@ -88,7 +88,7 @@ const Login: React.FC = () => {
             setResponseData(response.data);
             await timeout(1000); //for 1 sec delay
             setIsLoggedIn(true);
-            navigate("/price");
+            navigate("/home");
         } catch (error) {
             setErrorMessage('Invalid email or password');
             removeToken();

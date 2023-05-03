@@ -3,6 +3,7 @@ import { RouterProvider, createBrowserRouter,Route, BrowserRouter  as Router } f
 import Layout from './Page/Layout';
 import Login from './Page/Login';
 import Price from './Page/Price'
+import Home from './Page/Home'
 import SubmitRequest  from './Page/SubmitRequest';
 import RegisterAccount from './Page/Register'
 import RegistrationConfirm from './Page/RegisterationConfirm'
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Login />},
       { path: "/register", element: <RegisterAccount />},
+      { path: "/home", element: <Home />, loader: isLogin},
       { path: "/price", element: <Price />, loader: isLogin},
       { path: "/submitRequest", element: <SubmitRequest />, loader: isLogin},
       { path: "/registrationConfirm", element: <RegistrationConfirm />},

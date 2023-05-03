@@ -28,12 +28,25 @@ interface RecyclePriceResponseItem {
   unitPrice: number;
   subTotalPrice: number;
 }
+interface RecycleRequest{
+  email: string;
+  contactPerson: string;
+  contactNumber: string;
+  collectionDate: string;
+  collectionStatus: string;
+  promoCode: string;
+  dbItems: RecycleRequestItem[];
+}
 
 interface RecycleRequestItem {
   category: string;
   quantity: number;
-  unitOfMeasurement: string;
+  unitPrice: number;
+  subTotalPrice: number;
+  // unitOfMeasurement: string;
   description: string;
+
+
 }
 
 interface RecycleFormState {
@@ -57,7 +70,7 @@ interface ResponseData {
 
 
 
-const Price: React.FC = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const recycleFormDataEmpty: RecycleFormState = {
     category: "",
@@ -73,11 +86,18 @@ const Price: React.FC = () => {
     items: [],
   };
 
-  const recycleRequestEmpty: RecycleRequestItem[] = [];
+  const recycleRequestEmpty: RecycleRequest = {
+    email: "",
+    contactPerson: "",
+    contactNumber: "",
+    collectionDate: "",
+    collectionStatus: "",
+    promoCode: "",
+    dbItems: []
+  };
   const [recycleCategories, setRecycleCategories] = useState<RecycleCategoriesResponseItem[]>([]);
-  useState<RecycleRequestItem[]>(recycleRequestEmpty);
-  const [recycleRequest, setRecycleRequest] =
-    useState<RecycleRequestItem[]>(recycleRequestEmpty);
+  // useState<RecycleRequestItem[]>(recycleRequestEmpty);
+  const [recycleRequest, setRecycleRequest] = useState<RecycleRequest>(recycleRequestEmpty);
 
   const [recyclePriceResponse, setRecyclePriceResponse] =
     useState<RecyclePriceResponse>(recyclePriceRespEmpty);
@@ -126,6 +146,22 @@ const Price: React.FC = () => {
             Cookies.remove("access_token")
             navigate("/");
         });
+
+      axios
+        .get(`${process.env.REACT_APP_RECYCLE_API_URL+API_PATH.RETRIEVE}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+            const d = res.data;
+            console.log("retrieve response", d);
+            console.log("data[0]", d.data[0]);
+            setRecycleRequest(d.data[0]);
+        })
+        .catch((err) => {
+            console.error("error when calling retrive API",err);
+            Cookies.remove("access_token")
+            navigate("/");
+        });
     } else {
       console.log("token not found from Cookie");
       navigate("/");
@@ -142,113 +178,12 @@ const Price: React.FC = () => {
     return "";
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleInputChange called - event:", event);
-    const { name, value } = event.target;
-    console.log("handleInputChange called - name: ", name, ", value: ", value);
-
-    if (name == "category") {
-      console.log("changing category");
-      setFormData({
-        ...formData,
-        [name]: value,
-        unitOfMeasurement: getUnitOfMeasurement(value),
-      });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-    console.log("handleInputChange called - formData", formData);
-  };
-
-  const handleClear = () => {
-    console.log("handleClear");
-    setRecyclePriceResponse(recyclePriceRespEmpty);
-    setRecycleRequest(recycleRequestEmpty);
-  };
-
-  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("form submit, formData", formData);
-
-    if (formData.category == "" || formData.quantity <= 0) {
-      console.error("invalid form input");
-      return;
-    }
-    const newRecycleRequest = [
-      ...recycleRequest,
-      {
-        category: formData.category,
-        quantity: formData.quantity,
-        description: formData.description,
-        unitOfMeasurement: formData.unitOfMeasurement,
-      },
-    ];
-    // setPromoCode(formData.promoCode);
-    // setRecycleRequest(newRecycleRequest);
-    console.log("form submit, recycleRequest: ", recycleRequest);
-    const token = getToken();
-    if (token) {
-      console.log("token found from Cookies", token);
-    } else {
-      console.log("token not found");
-    }
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-      "Access-Control-Allow-Origin": "*",
-    };
-
-    let payload;
-    if (formData.promoCode){
-      payload = {
-        promoCode: formData.promoCode,
-        data: newRecycleRequest,
-      };
-    } else {
-      payload = {
-        promoCode: "",
-        data: newRecycleRequest,
-      };
-    }
-    console.log("headers", headers);
-    console.log("payload", payload);
-    try {
-      const response = await axios.post(
-        process.env.REACT_APP_RECYCLE_API_URL + API_PATH.PRICE,
-        payload,
-        { headers: headers }
-      );
-      console.log("price response", response);
-
-      if (response.status == 200){
-        setRecyclePriceResponse(response.data);
-        setRecycleRequest(newRecycleRequest);
-        setPromoCode(formData.promoCode);
-        setErrorMessage("");
-      } else if (response.status == 403){
-        removeToken();
-        navigate("/");
-      } 
-
-    } catch (error) {
-      console.log("error when calling price api", error);
-      if (axios.isAxiosError(error)){
-        console.log("axios error", error.response);
-        if(error && error.response && error.response.data && error.response.data.message){
-          setErrorMessage(error.response.data.message);
-        }
-      }
-      
-    }
-  };
-
   return (
     <Container fluid className="pt-5">
       <div>
         <div className="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
           <div className=" ">
-            <h1 className="text-center p-3">Recycle Cart</h1>
-            <h2 className="text-center">Step 1) Get Price Estimate</h2>
+            <h1 className="p-3">Upcoming Collection</h1>
           </div>
           <Table bordered hover>
             <thead>
@@ -262,7 +197,7 @@ const Price: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {recycleRequest.map((item, index) => (
+              {recycleRequest && recycleRequest.dbItems && recycleRequest.dbItems.map((item, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{item.category}</td>
@@ -270,11 +205,7 @@ const Price: React.FC = () => {
                   <td>{getUnitOfMeasurement(item.category)}</td>
                   <td>{item.description}</td>
                   <td>
-                    $
-                    {recyclePriceResponse &&
-                      recyclePriceResponse.items &&
-                      recyclePriceResponse.items[index] &&
-                      recyclePriceResponse.items[index].subTotalPrice}
+                    $ {item.subTotalPrice}
                   </td>
                 </tr>
               ))}
@@ -288,7 +219,7 @@ const Price: React.FC = () => {
             </tbody>
           </Table>
 
-          <Form className="pt-3" onSubmit={handleFormSubmit}>
+          {/* <Form className="pt-3" onSubmit={handleFormSubmit}>
             <Row>
               <Col>
                 <Form.Group controlId="exampleForm.ControlSelect1">
@@ -380,28 +311,11 @@ const Price: React.FC = () => {
               </div>
             )}
             <br />
-          </Form>
-          <div className="mt-4 d-flex align-items-center justify-content-center">
-            <Button
-              className="button"
-              variant="danger"
-              onClick={handleClear}
-            >
-              Clear
-            </Button>
-            <Link className="mx-2 button" to="/submitRequest" state={{recycleRequestPass: recycleRequest}}>
-            <Button
-              className="w-100"
-              variant="success"
-            >
-              Proceed
-            </Button>
-            </Link>
-          </div>
+          </Form> */}
         </div>
       </div>
     </Container>
   );
 };
 
-export default Price;
+export default Home;

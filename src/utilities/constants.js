@@ -3,6 +3,7 @@ export const API_PATH = {
     REGISTER : "/api/v1/user/register",
     PRICE : "/api/v1/request/price",
     REG_CONFIRM: "/api/v1/user/registrationConfirm",
+    RETRIEVE : "/api/v1/request/retrieve",
 }
 
 export const TABLE_DATA = [
