@@ -35,6 +35,7 @@ interface RecycleRequest{
   collectionDate: string;
   collectionStatus: string;
   promoCode: string;
+  totalPrice: number;
   dbItems: RecycleRequestItem[];
 }
 
@@ -93,6 +94,7 @@ const Home: React.FC = () => {
     collectionDate: "",
     collectionStatus: "",
     promoCode: "",
+    totalPrice: 0,
     dbItems: []
   };
   const [recycleCategories, setRecycleCategories] = useState<RecycleCategoriesResponseItem[]>([]);
@@ -182,9 +184,36 @@ const Home: React.FC = () => {
     <Container fluid className="pt-5">
       <div>
         <div className="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
-          <div className=" ">
-            <h1 className="p-3">Upcoming Collection</h1>
+          <div className="">
+            <h1 className="">Upcoming Collection</h1>
           </div>
+
+          <div className="req-details mb-3">
+              <div className="row d-flex justify-content-between">
+                <div className="col">
+                  Collection Date: {recycleRequest.collectionDate.substring(0,recycleRequest.collectionDate.length-3)}
+                </div>
+                <div className="col">
+                  Status: {recycleRequest.collectionStatus}
+                </div>  
+      
+              </div>
+              <div className="">
+                  Promo Code: {recycleRequest.promoCode}
+              </div>  
+              <div className="row d-flex justify-content-between">
+                <div className="col">
+                  Contact Person: {recycleRequest.contactPerson}
+                </div>  
+                <div className="col ">
+                  Contact Number: {recycleRequest.contactNumber}
+                </div>  
+
+              </div>
+          </div>
+
+
+
           <Table bordered hover>
             <thead>
               <tr>
@@ -213,105 +242,12 @@ const Home: React.FC = () => {
               <tr>
                 <td colSpan={5}>Total</td>
                 <td>
-                  ${recyclePriceResponse && recyclePriceResponse.totalPrice}
+                  ${recycleRequest && recycleRequest.totalPrice}
+                  {/* ${recyclePriceResponse && recyclePriceResponse.totalPrice} */}
                 </td>
               </tr>
             </tbody>
           </Table>
-
-          {/* <Form className="pt-3" onSubmit={handleFormSubmit}>
-            <Row>
-              <Col>
-                <Form.Group controlId="exampleForm.ControlSelect1">
-                  <Form.Label>Category</Form.Label>
-                  <Form.Control
-                    name="category"
-                    as="select"
-                    value={formData.category}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">Select an option</option>
-                    {recycleCategories.map((c, index) => (
-                      <option key={index} value={c.category}>
-                        {c.category}
-                      </option>
-                    ))}
-                  </Form.Control>
-                </Form.Group>
-              </Col>
-
-              <Col xs={2}>
-                <Form.Group controlId="quantity">
-                  <Form.Label>Quantity</Form.Label>
-                  <Form.Control
-                    type="number"
-                    // placeholder="E.g. 1 kg"
-                    name="quantity"
-                    value={formData.quantity}
-                    onChange={handleInputChange}
-                    min="0.1"
-                    step=".01"
-                    // required
-                  />
-                </Form.Group>
-              </Col>
-              <Col xs={1} className="d-flex align-items-end">
-                <span>{formData.unitOfMeasurement}</span>
-              </Col>
-              <Col>
-                <Form.Group controlId="description">
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="e.g. 10 plastic bottles"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleInputChange}
-                    // required
-                  />
-                </Form.Group>
-              </Col>
-              <Col
-                xs={2}
-                className="d-flex align-items-end justify-content-end"
-              >
-                <Button className="button" variant="primary" type="submit">
-                  Add
-                </Button>
-              </Col>
-
-
-            </Row>
-
-            <div className="d-flex mt-3">
-
-                  <Form.Group controlId="promocode">
-                    <Form.Label>Promo Code</Form.Label>
-                    <Form.Control
-                      type="text"
-                      // placeholder="Promo Code"
-                      name="promoCode"
-                      value={formData.promoCode}
-                      onChange={handleInputChange}
-                      // required
-                    />
-                  </Form.Group>
-                  <div className=" d-flex mx-3">
-                    <span className=" align-self-end">Promo Code Applied: {promoCode}</span>
-                  </div>
-            </div>
-            {responseData && (
-              <div className="text-success mr-2 d-inline-block">
-                {responseData.message}
-              </div>
-            )}
-            {errorMessage && (
-              <div className="mt-2 text-danger mr-2 d-inline-block">
-                {errorMessage}
-              </div>
-            )}
-            <br />
-          </Form> */}
         </div>
       </div>
     </Container>
