@@ -19,14 +19,18 @@ interface RecyclePriceResponse {
   returnCode: string;
   message: string;
   totalPrice: number;
+  promoCode: string;
   items: RecyclePriceResponseItem[];
 }
 
 interface RecyclePriceResponseItem {
   name: string;
+  category: string;
   quantity: number;
   unitPrice: number;
   subTotalPrice: number;
+  description: string
+  unitOfMeasurement: string;
 }
 
 interface RecycleRequestItem {
@@ -69,6 +73,7 @@ const Price: React.FC = () => {
   const recyclePriceRespEmpty: RecyclePriceResponse = {
     returnCode: "",
     message: "",
+    promoCode: "",
     totalPrice: 0,
     items: [],
   };
@@ -78,7 +83,7 @@ const Price: React.FC = () => {
   useState<RecycleRequestItem[]>(recycleRequestEmpty);
   const [recycleRequest, setRecycleRequest] =
     useState<RecycleRequestItem[]>(recycleRequestEmpty);
-
+  // const [isQuantityValid, setIsQuantityValid] = useState(true);
   const [recyclePriceResponse, setRecyclePriceResponse] =
     useState<RecyclePriceResponse>(recyclePriceRespEmpty);
     const [promoCode, setPromoCode] = useState<string>("");
@@ -170,8 +175,14 @@ const Price: React.FC = () => {
     event.preventDefault();
     console.log("form submit, formData", formData);
 
-    if (formData.category == "" || formData.quantity <= 0) {
-      console.error("invalid form input");
+    if (formData.category == ""){
+      console.error("invalid category");
+      setErrorMessage("Please select a category")
+      return;
+    } else if (formData.quantity <= 0.1) {
+      // setIsQuantityValid(false);
+      console.error("invalid quantity");
+      setErrorMessage("Invalid quantity")
       return;
     }
     const newRecycleRequest = [
@@ -221,7 +232,10 @@ const Price: React.FC = () => {
       console.log("price response", response);
 
       if (response.status == 200){
-        setRecyclePriceResponse(response.data);
+        let responseData : RecyclePriceResponse = response.data;
+        responseData.items.map(item => item.unitOfMeasurement = getUnitOfMeasurement(item.category));
+        responseData.promoCode = formData.promoCode;
+        setRecyclePriceResponse(responseData);
         setRecycleRequest(newRecycleRequest);
         setPromoCode(formData.promoCode);
         setErrorMessage("");
@@ -262,20 +276,16 @@ const Price: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {recycleRequest.map((item, index) => (
+            {   recyclePriceResponse &&
+                recyclePriceResponse.items &&
+                recyclePriceResponse.items.map((item, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{item.category}</td>
                   <td>{item.quantity}</td>
-                  <td>{getUnitOfMeasurement(item.category)}</td>
+                  <td>{item.unitOfMeasurement}</td>
                   <td>{item.description}</td>
-                  <td>
-                    $
-                    {recyclePriceResponse &&
-                      recyclePriceResponse.items &&
-                      recyclePriceResponse.items[index] &&
-                      recyclePriceResponse.items[index].subTotalPrice}
-                  </td>
+                  <td>${item.subTotalPrice}</td>
                 </tr>
               ))}
 
@@ -288,7 +298,7 @@ const Price: React.FC = () => {
             </tbody>
           </Table>
 
-          <Form className="pt-3" onSubmit={handleFormSubmit}>
+          <Form noValidate className="pt-3" onSubmit={handleFormSubmit}>
             <Row>
               <Col>
                 <Form.Group controlId="exampleForm.ControlSelect1">
@@ -318,10 +328,12 @@ const Price: React.FC = () => {
                     name="quantity"
                     value={formData.quantity}
                     onChange={handleInputChange}
+                    // isInvalid={!isQuantityValid}
                     min="0.1"
                     step=".01"
                     // required
                   />
+                  {/* <Form.Control.Feedback type="invalid">Invalid quantity</Form.Control.Feedback> */}
                 </Form.Group>
               </Col>
               <Col xs={1} className="d-flex align-items-end">
@@ -375,7 +387,7 @@ const Price: React.FC = () => {
               </div>
             )}
             {errorMessage && (
-              <div className="mt-2 text-danger mr-2 d-inline-block">
+              <div className="mt-4 text-danger">
                 {errorMessage}
               </div>
             )}
@@ -389,7 +401,7 @@ const Price: React.FC = () => {
             >
               Clear
             </Button>
-            <Link className="mx-2 button" to="/submitRequest" state={{recycleRequestPass: recycleRequest}}>
+            <Link className="mx-2 button" to="/submitRequest" state={{recycleRequestPass: recyclePriceResponse.items}}>
             <Button
               className="w-100"
               variant="success"
