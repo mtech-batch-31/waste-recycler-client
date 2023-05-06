@@ -5,6 +5,12 @@ Bulky Item/Removal Appointment Frontend App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Installation of Dependencies
+
+### React Scripts:
+
+npm install react-scripts
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -77,19 +83,3 @@ Go to Settings icon, Settings, search for Jest, Edit in settings.json and add th
         ],
         "onSave": "test-src-file"
     }
-
-## CICD
-
-### Installation of Dependencies
-
-### React Scripts:
-
-npm install react-scripts
-
-npm install
-
-### If running Github actions, 
-
-npm install react-scripts
-
-npm ci --force
