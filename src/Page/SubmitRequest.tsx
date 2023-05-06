@@ -176,8 +176,8 @@ const SubmitRequest = () => {
                     Back
                     </Button></Link>
                     </Col>
-                    <Col className="d-flex justify-content-end btn-custom">
-                    <Button type="submit" variant="success">
+                    <Col className="d-flex justify-content-end">
+                    <Button type="submit" variant="success" className="btn-custom">
                         Submit
                     </Button></Col>
                 </Row>
