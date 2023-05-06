@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import "../../node_modules/bootstrap/dist/js/bootstrap.bundle.min"
 import { Button, Form, Container, Row, Col, Alert} from 'react-bootstrap';
@@ -43,6 +43,7 @@ const RegisterAccount = () => {
         unitNo: '',
         postalCode: ''
     };
+    const navigate = useNavigate();
     const [formData, setFormData] = useState<RegisterAccountState>(initFormState);
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [isPasswordValid, setIsPasswordValid] = useState(true);
@@ -138,6 +139,9 @@ const RegisterAccount = () => {
                 else
                 {
                     setRegisterResult({isSuccess: true, message: "Your account has been successfully registered."});
+                    await timeout(2000); //for 1 sec delay
+                    navigate("/home");
+        
                 }
                 
             } catch (error) 
@@ -158,6 +162,27 @@ const RegisterAccount = () => {
             setRegisterResult({isSuccess: false, message: ""});
         }
     }
+
+    const generateDummyData = () => {
+        setFormData({
+          email: "dummy@mail.com",
+          password: "P@ssw0rd",
+          confirmPassword: "P@ssw0rd",
+          firstName: "John",
+          lastName: "Doe",
+          contactNumber: "83930521",
+          street: "Main Street",
+          blockNo: "123",
+          floorNo: "4",
+          unitNo: "10",
+          postalCode: "123450",
+        });
+      };
+
+      function timeout(delay: number) {
+        return new Promise( res => setTimeout(res, delay) );
+    }
+
     return (
     <Container>
         <Row className="vh-100 justify-content-center align-items-center">
@@ -167,63 +192,63 @@ const RegisterAccount = () => {
             <Row>
             <Form.Group controlId="email" >
                 <Form.Label>Email</Form.Label>
-                <Form.Control type="email" placeholder="name@example.com" onChange={onChangeHandler} isInvalid={!isEmailValid} onBlur={onBlurHandler}/>
+                <Form.Control type="email" placeholder="name@example.com" value={formData.email} onChange={onChangeHandler} isInvalid={!isEmailValid} onBlur={onBlurHandler}/>
                 <Form.Control.Feedback type="invalid">Please enter valid email.</Form.Control.Feedback>
             </Form.Group>
             </Row>
             <Row><Form.Group controlId="password" >
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" onChange={onChangeHandler} isInvalid={!isPasswordValid} onBlur={onBlurHandler}/>
+                <Form.Control type="password" onChange={onChangeHandler} value={formData.password} isInvalid={!isPasswordValid} onBlur={onBlurHandler}/>
                 <Form.Control.Feedback type="invalid">Password must be at least 8 characters, is alphanumeric and contain special character.</Form.Control.Feedback>
             </Form.Group></Row>
             <Row><Form.Group controlId="confirmPassword">
                 <Form.Label>Confirm Password</Form.Label>
-                <Form.Control type="password" onChange={onChangeHandler} isInvalid={!isConfirmPasswordValid} onBlur={onBlurHandler}/>
+                <Form.Control type="password" onChange={onChangeHandler} value={formData.confirmPassword} isInvalid={!isConfirmPasswordValid} onBlur={onBlurHandler}/>
                 <Form.Control.Feedback type="invalid">Confirm password and password does not match.</Form.Control.Feedback>
             </Form.Group></Row>
             <Row>
                 <Col><Form.Group controlId="firstName">
                     <Form.Label >First Name</Form.Label>
-                    <Form.Control type="text" onChange={onChangeHandler} isInvalid={!isFirstNameValid} onBlur={onBlurHandler}/>
+                    <Form.Control type="text" onChange={onChangeHandler} value={formData.firstName} isInvalid={!isFirstNameValid} onBlur={onBlurHandler}/>
                     <Form.Control.Feedback type="invalid">Please enter first name.</Form.Control.Feedback>
                 </Form.Group></Col>
                 <Col><Form.Group controlId="lastName">
                     <Form.Label>Last Name</Form.Label>
-                    <Form.Control type="text" onChange={onChangeHandler} isInvalid={!isLastNameValid} onBlur={onBlurHandler}/>
+                    <Form.Control type="text" onChange={onChangeHandler} value={formData.lastName}isInvalid={!isLastNameValid} onBlur={onBlurHandler}/>
                     <Form.Control.Feedback type="invalid">Please enter last name.</Form.Control.Feedback>
                 </Form.Group></Col>
             </Row>
             <Form.Group controlId="contactNumber">
                 <Form.Label>Contact</Form.Label>
-                <Form.Control type="text" onChange={onChangeHandler} isInvalid={!isContactValid} onBlur={onBlurHandler}/>
+                <Form.Control type="text" onChange={onChangeHandler} value={formData.contactNumber} isInvalid={!isContactValid} onBlur={onBlurHandler}/>
                 <Form.Control.Feedback type="invalid">Please enter valid contact number.</Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId="street">
                 <Form.Label>Street Name</Form.Label>
-                <Form.Control type="text" onChange={onChangeHandler} isInvalid={!isStreetValid} onBlur={onBlurHandler}/>
+                <Form.Control type="text" onChange={onChangeHandler} value={formData.street} isInvalid={!isStreetValid} onBlur={onBlurHandler}/>
                 <Form.Control.Feedback type="invalid">Please enter street.</Form.Control.Feedback>
             </Form.Group>
             <Row>
             <Form.Group as={Col} controlId="blockNo">
                 <Form.Label>Blk No.</Form.Label>
-                <Form.Control type="text" onChange={onChangeHandler} isInvalid={!isBlockValid} onBlur={onBlurHandler}/>
+                <Form.Control type="text" onChange={onChangeHandler} value={formData.blockNo} isInvalid={!isBlockValid} onBlur={onBlurHandler}/>
                 <Form.Control.Feedback type="invalid">Please enter block no.</Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Col} controlId="floorNo">
                 <Form.Label>Floor No.</Form.Label>
-                <Form.Control type="text" maxLength={2} onChange={onChangeHandler} isInvalid={!isFloorNoValid} onBlur={onBlurHandler}/>
+                <Form.Control type="text" maxLength={2} onChange={onChangeHandler} value={formData.floorNo} isInvalid={!isFloorNoValid} onBlur={onBlurHandler}/>
                 <Form.Control.Feedback type="invalid">Please valid floor no.</Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Col} controlId="unitNo">
                 <Form.Label>Unit No.</Form.Label>
-                <Form.Control type="text" maxLength={4} onChange={onChangeHandler} isInvalid={!isUnitNoValid} onBlur={onBlurHandler}/>
+                <Form.Control type="text" maxLength={4} onChange={onChangeHandler} value={formData.unitNo} isInvalid={!isUnitNoValid} onBlur={onBlurHandler}/>
                 <Form.Control.Feedback type="invalid">Please valid unit no.</Form.Control.Feedback>
             </Form.Group>
             </Row>
             <Row>
             <Form.Group as={Col} controlId="postalCode">
                 <Form.Label>Postal Code</Form.Label>
-                <Form.Control type="text" onChange={onChangeHandler} isInvalid={!isPostCodeValid} onBlur={onBlurHandler}/>
+                <Form.Control type="text" onChange={onChangeHandler} value={formData.postalCode} isInvalid={!isPostCodeValid} onBlur={onBlurHandler}/>
                 <Form.Control.Feedback type="invalid">Please enter valid postal code.</Form.Control.Feedback>
             </Form.Group>
             </Row>
@@ -234,6 +259,9 @@ const RegisterAccount = () => {
             <Row className="d-flex align-items-center">
                 <Col>
                     <Link to="/"><Button variant="primary" className="btn-custom-outline">Back to Login</Button></Link>
+                </Col>
+                <Col>
+                <Button variant="primary" onClick={generateDummyData}>Generate Dummy Data</Button>
                 </Col>
                 <Col className="d-flex justify-content-end">
                     <Button variant="primary" type="submit" className="btn-custom">Register</Button>
