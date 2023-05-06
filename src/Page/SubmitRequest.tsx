@@ -123,10 +123,10 @@ const SubmitRequest = () => {
                 const apiResponse = response?.data as APIResponse
                 console.log(response);
                 if(apiResponse?.message)
-                    setRequestResult(apiResponse.message + " You will be redirected to home page.");
+                    setRequestResult(apiResponse.message + ". You will be redirected to home page.");
                 else
                     setRequestResult("Your request is successfully submitted. You will be redirected to home page");
-                setTimeout(function(){navigate("/home");}, 1000);
+                setTimeout(function(){navigate("/home");}, 2000);
             }
             catch(error)
             {
@@ -232,13 +232,8 @@ const SubmitRequest = () => {
                         <Button type="submit" variant="submit" className="btn-submit">Submit</Button>
                     </Col>
                 </Row>
-                <Row>
-                    <Col>
-                    {requestResult && <div className="text-success mr-2 d-inline-block">{requestResult}</div>}
-                    </Col>
-                </Row>
-
           </Table>
+          {requestResult && <div className="text-success mr-2 d-inline-block">{requestResult}</div>}
         </Form>
     </div>
     </Container>);

@@ -1,0 +1,28 @@
+# This is a combination of 2 commits.
+# This is the 1st commit message:
+
+Update error handling for incorrect password
+
+# This is the commit message #2:
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Sun May 7 00:09:09 2023 +0800
+#
+# interactive rebase in progress; onto d32f8c8
+# Last commands done (2 commands done):
+#    pick 2005512 Update error handling for incorrect password
+#    squash 95b056e to rebase
+# No commands remaining.
+# You are currently rebasing branch 'main' on 'd32f8c8'.
+#
+# Changes to be committed:
+#	modified:   src/Components/Header.css
+#	modified:   src/Components/Header.tsx
+#	modified:   src/Page/Home.tsx
+#	modified:   src/Page/Login.css
+#	modified:   src/Page/Login.tsx
+#	modified:   src/Page/Register.css
+#	modified:   src/Page/Register.tsx
+#	modified:   src/Page/SubmitRequest.tsx
+#

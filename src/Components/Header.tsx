@@ -19,7 +19,7 @@ const Header = () => {
 
     return (
     <Stack direction="horizontal" gap={5} className="header">
-            <div className="mx-2">
+            <div className="mx-2 logo">
                 <img src={logo}></img>
             </div>
             <div>

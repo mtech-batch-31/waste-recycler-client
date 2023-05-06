@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import './Login.css';
 import axios from 'axios';
-// import MockAdapter from 'axios-mock-adapter'; // import the mocking library
 import Cookies from 'js-cookie';
 import { API_PATH } from '../utilities/constants';
 import {ACCESS_TOKEN} from '../utilities/constants'
@@ -60,37 +59,28 @@ const Login: React.FC = () => {
 
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // Clear the responseData and errorMessage
         setResponseData(null);
         setErrorMessage('');
-
-        // Create a new instance of the mocking library and set it up to intercept the axios.post call
-        // const mock = new MockAdapter(axios);
-        // mock.onPost('http://localhost:8080/api/v1/auth/login').reply(200, {
-        //     returnCode: '00',
-        //     message: 'The request has been successfully processed',
-        //     accessToken:
-        //         'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJzY2dsd3NqQDE2My5jb20iLCJpYXQiOjE2ODA2NzM0MzAsImV4cCI6MTY4MDY3NDMzMH0.sCts66QMeHgsk2daV2qUfCy4bZee625QY73jGsy7uQLo0orNo6W7BP2gijFHHBrg',
-        //     refreshToken: 'd7c039c1-2bd2-476b-a2fe-da0367d4c94f',
-        // });
-
         try {
             const response = await axios.post(process.env.REACT_APP_RECYCLE_API_URL+API_PATH.LOGIN, {
-                email: formData.email, // Use the email value for the userName parameter
+                email: formData.email,
                 password: formData.password
             }, {
-                withCredentials: true, // Add the withCredentials flag
+                withCredentials: true,
             });
             console.log('login response', response);
-            // Retrieve the token from the response
+            if (response.data.accessToken == null) {
+                setErrorMessage('Wrong password. Try again or contact us to reset it.');
+            } else{
             const token = response.data.accessToken;
             Cookies.set(ACCESS_TOKEN, token, {path:'/'});
             setResponseData(response.data);
-            await timeout(1000); //for 1 sec delay
             setIsLoggedIn(true);
             navigate("/home");
+        }
+        
         } catch (error) {
-            setErrorMessage('Invalid email or password');
+            setErrorMessage('Couldn\'t find your account');
             removeToken();
         }
     };
@@ -123,8 +113,7 @@ const Login: React.FC = () => {
                                 required
                             />
                         </Form.Group>
-                        {responseData && <div className="text-success mr-2 d-inline-block">{responseData.message}</div>}
-                        {errorMessage && <div className="text-danger mr-2 d-inline-block">{errorMessage}</div>}<br />
+                        {errorMessage && <div className="text-danger mr-2 d-inline-block">{errorMessage}</div>}<br/>
                         <Row className="d-flex justify-content-between align-items-center">
                             <Col>
                                 <Link to="/register"><Button variant="primary" className="btn-custom-outline">Register</Button></Link>

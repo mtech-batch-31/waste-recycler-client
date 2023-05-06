@@ -8,11 +8,9 @@
   border-radius: 10px;
   font-size: 16px;
   font-weight: bold;
-  width: 15vmin;
-  min-width: 77px;
-  margin-top: 5px;
+  width: 15vmin !important;
+  min-width: 77px !important;
   padding: 4px;
-  margin-top: 10px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }

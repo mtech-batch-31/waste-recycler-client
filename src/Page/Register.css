@@ -40,7 +40,38 @@ label {
     background-color: #0CA789;
     color: #FFFFFF;
   }
-
+.btn-custom {
+  background-color: #0CA789;
+  color: #ffffff;
+  border: 3px solid #0CA789;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  width: 15vmin !important;
+  min-width: 77px !important;
+  margin-top: 5px;
+  padding: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.btn-custom:hover {
+  background-color: #ededed;
+  color: #000000;
+  border: 3px solid #ededed;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  width: 15vmin;
+  min-width: 60px;
+  padding: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.btn-custom:active {
+  background-color: #9bbdf6 !important;
+  color: #ffffff !important;
+  border: 3px solid #9bbdf6 !important;
+}
   .btn-custom-invisible,
   .btn-custom-invisible:hover,
   .btn-custom-invisible:active {

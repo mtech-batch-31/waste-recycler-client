@@ -140,9 +140,7 @@ const RegisterAccount = () => {
                 else
                 {
                     setRegisterResult({isSuccess: true, message: "Your account has been successfully registered."});
-                    await timeout(2000); //for 1 sec delay
-                    navigate("/home");
-        
+                    setTimeout(function(){navigate("/home");}, 2000);
                 }
                 
             } catch (error) 
@@ -162,38 +160,6 @@ const RegisterAccount = () => {
             console.log('form is invalid');
             setRegisterResult({isSuccess: false, message: ""});
         }
-    }
-
-    const generateDummyData = () => {
-        setFormData({
-          email: "andrew@mail.com",
-          password: "P@ssw0rd",
-          confirmPassword: "P@ssw0rd",
-          firstName: "Andrew",
-          lastName: "Tan",
-          contactNumber: "65162093",
-          street: "25 Heng Mui Keng Terrace, Institute of Systems Science, Singapore 119615",
-          blockNo: "123",
-          floorNo: "4",
-          unitNo: "10",
-          postalCode: "119615",
-        });
-        setIsEmailValid(true);
-        setIsPasswordValid(true);
-        setIsConfirmPasswordValid(true);
-        setIsFirstNameValid(true);
-        setIsLastNameValid(true);
-        setIsContactValid(true);
-        setIsStreetValid(true);
-        setIsBlockValid(true);
-        setIsPostCodeValid(true);
-        setIsUnitNoValid(true);
-        setIsFloorNoValid(true);
-        setRegisterResult({ isSuccess: false, message: '' });
-      };
-
-      function timeout(delay: number) {
-        return new Promise( res => setTimeout(res, delay) );
     }
 
     return (
@@ -273,9 +239,6 @@ const RegisterAccount = () => {
                 <Col>
                     <Link to="/"><Button variant="primary" className="btn-custom-outline">Back to Login</Button></Link>
                 </Col>
-                <Col>
-                <Button variant="primary" className="btn-custom-invisible" onClick={generateDummyData}>Dummy</Button>
-                </Col>
                 <Col className="d-flex justify-content-end">
                     <Button variant="primary" type="submit" className="btn-custom">Register</Button>
                 </Col>
@@ -283,7 +246,6 @@ const RegisterAccount = () => {
         </Form>
         </div></Row>
     </Container>);
-
 }
 
 export default RegisterAccount;
