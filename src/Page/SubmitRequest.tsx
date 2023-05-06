@@ -1,6 +1,6 @@
 import { Container, Table, Row, Col, Form, Button} from "react-bootstrap";
 import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { getToken } from "../utilities/auth";
@@ -27,6 +27,14 @@ interface RecycleRequest{
       message: string;
       returnCode: string;
   }
+  const initFormState: RecycleRequest = {
+    email: '',
+    contactPerson: '',
+    contactNumber: '',
+    collectionDate: '',
+    promoCode: '',
+    data: []
+};
 const SubmitRequest = () => {
     const location = useLocation();
     let recycleRequest: RecycleRequestItem[] = [];
@@ -39,7 +47,8 @@ const SubmitRequest = () => {
         console.log("recycleRequestToSubmit from getPrice:")
         console.log(recycleRequest);
         console.log("totalPrice from getPrice")
-        console.log(totalPrice);    }
+        console.log(totalPrice);    
+    }
 
     const initialRequest:RecycleRequest = {email: "", contactPerson:'', contactNumber:'', collectionDate: '', promoCode: '', data: recycleRequest} 
     const [request, setRequest] = useState<RecycleRequest>(initialRequest);
@@ -47,9 +56,11 @@ const SubmitRequest = () => {
     //console.log(request);
     const token = getToken();
     const [requestResult, setRequestResult] = useState<String>('');
+
     const [isValidContactPerson, setIsValidContactPerson] = useState<boolean>(true);
     const [isValidContactNumber, setIsValidContactNumber] = useState<boolean>(true);
     const [isValidCollectionTime, setIsValidCollectionTime] = useState<boolean>(true);
+    const navigate = useNavigate();
 
     const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         //console.log(event.target.id);      
@@ -92,6 +103,11 @@ const SubmitRequest = () => {
             return false;
         }
     }
+
+    function timeout(delay: number) {
+        return new Promise( res => setTimeout(res, delay) );
+    }
+
     const submitRequest = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         //validate request request
@@ -127,18 +143,14 @@ const SubmitRequest = () => {
             }
         }
     }
-
-    const sumSubtotals = (items: RecycleRequestItem ) => {
-
-    }
-    return (<Container fluid className="pt-5">
-
+    return (
+    <Container fluid className="pt-5">
       <div className="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
         <div className=" ">
           <h1 className="text-center p-3">Recycle Cart</h1>
-          <h2 className="text-center">Step 2) Submit Request</h2>
+          <h2 className="text-center">Step 2 Submit Request</h2>
         </div>
-        <Form onSubmit={submitRequest}>
+        <Form onSubmit={submitRequest} >
             <Table bordered hover>
             <thead>
                 <tr>
@@ -152,15 +164,15 @@ const SubmitRequest = () => {
             </thead>
             <tbody>
                 {recycleRequest.map((item, index: number) => (
-                <tr key={index}>
-                    <td>{index+1}</td>
-                    <td>{item.category}</td>
-                    <td>{item.quantity}</td>
-                    <td>{item.unitOfMeasurement}</td>
-                    <td>{item.description}</td>
-                    <td>${item.subTotalPrice.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
-                    </td>
-                </tr>
+                    <tr key={index}>
+                        <td>{index+1}</td>
+                        <td>{item.category}</td>
+                        <td>{item.quantity}</td>
+                        <td>{item.unitOfMeasurement}</td>
+                        <td>{item.description}</td>
+                        <td>${item.subTotalPrice.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                        </td>
+                    </tr>
                 ))}
 
                 <tr>
@@ -182,7 +194,7 @@ const SubmitRequest = () => {
                             isInvalid={!isValidContactPerson} />
                         <Form.Control.Feedback type="invalid">Please enter contact person.</Form.Control.Feedback>
                         </Form.Group>
-                        </Col>
+                    </Col>
                     <Col>
                         <Form.Group controlId="contactNumber">
                             <Form.Label>Contact Number</Form.Label>
@@ -203,6 +215,7 @@ const SubmitRequest = () => {
                                 onChange={onChangeHandler}
                                 isInvalid={!isValidCollectionTime} />
                             <Form.Control.Feedback type="invalid">Please enter valid collection date time.</Form.Control.Feedback>
+                        <Form.Label>Collection Date</Form.Label>
                         </Form.Group>
                     </Col>
                 </Row>
@@ -213,11 +226,13 @@ const SubmitRequest = () => {
                         </Link>
                     </Col>
                     <Col className="d-flex justify-content-end">
-                        <Button type="submit" variant="submit">Submit</Button>
+                        <Button type="submit">Submit</Button>
                     </Col>
                 </Row>
                 <Row>
-                    <Col>{requestResult}</Col>
+                    <Col>
+                    {requestResult && <div className="text-success mr-2 d-inline-block">{requestResult}</div>}
+                    </Col>
                 </Row>
           </Table>
         </Form>
