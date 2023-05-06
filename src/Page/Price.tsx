@@ -210,11 +210,11 @@ const Price: React.FC = () => {
     // setRecycleRequest(newRecycleRequest);
     console.log("form submit, recycleRequest: ", recycleRequest);
     const token = getToken();
-    if (token) {
-      console.log("token found from Cookies", token);
-    } else {
-      console.log("token not found");
-    }
+    //if (token) {
+    //  console.log("token found from Cookies", token);
+    //} else {
+    //  console.log("token not found");
+    //}
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -222,17 +222,18 @@ const Price: React.FC = () => {
     };
 
     let payload;
-    if (formData.promoCode){
+    console.log("PromoCode: ", promoCode);
+   //if (formData.promoCode){
       payload = {
-        promoCode: formData.promoCode,
+        promoCode: promoCode,
         data: newRecycleRequest,
       };
-    } else {
-      payload = {
-        promoCode: "",
-        data: newRecycleRequest,
-      };
-    }
+    //} else {
+    //  payload = {
+    //    promoCode: "",
+    //    data: newRecycleRequest,
+    //  };
+    //}
     console.log("headers", headers);
     console.log("payload", payload);
     try {
@@ -249,7 +250,7 @@ const Price: React.FC = () => {
         responseData.promoCode = formData.promoCode;
         setRecyclePriceResponse(responseData);
         setRecycleRequest(newRecycleRequest);
-        setPromoCode(formData.promoCode);
+        //setPromoCode(formData.promoCode);
         setErrorMessage("");
         resetFormData();
       } else if (response.status == 403){
@@ -283,6 +284,41 @@ const Price: React.FC = () => {
          description: ""}
   });
 
+  }
+  const applyPromoCode = async () => {
+    //recycleRequest.
+    if(recycleRequest.length > 0)
+    {
+      const token = getToken();
+      try {
+          const response = await axios.post(process.env.REACT_APP_RECYCLE_API_URL + API_PATH.PRICE,
+                                            {promoCode: formData.promoCode, data: recycleRequest},
+                                            {headers: { Authorization: `Bearer ${token}` }});
+        console.log("price response", response.status);
+        if (response.status == 200){
+          let responseData : RecyclePriceResponse = response.data;
+          responseData.items.map(item => item.unitOfMeasurement = getUnitOfMeasurement(item.category));
+          responseData.promoCode = formData.promoCode;
+          //console.log("setRecyclePriceResponse ");
+          setRecyclePriceResponse(responseData);
+          setPromoCode(formData.promoCode);
+          setErrorMessage("");
+          setFormData((prevData) =>{
+            return {...prevData, promoCode:""}
+          })
+        } else if (response.status == 403){
+          removeToken();
+          navigate("/");
+        } 
+     }
+      catch(error){
+        if (axios.isAxiosError(error)){
+          if(error && error.response && error.response.data && error.response.data.message){
+            setErrorMessage(error.response.data.message);
+          }
+        }
+      }
+    }
   }
   return (
     <Container fluid className="pt-5">
@@ -406,6 +442,7 @@ const Price: React.FC = () => {
                     />
                   </Form.Group>
                   <div className=" d-flex mx-3">
+                   <Button type="button" variant="warning" onClick={applyPromoCode}>Apply</Button>
                     <span className=" align-self-end">Promo Code Applied: {promoCode}</span>
                   </div>
             </div>

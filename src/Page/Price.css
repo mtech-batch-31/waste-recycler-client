@@ -82,3 +82,10 @@ h1, h2, h3 {
   min-width: 90px;
   max-width: 170px;
 }
+.btn-warning {
+  height: 40px;
+  font-size: 16px;
+  font-weight: normal;
+  margin-top: 30px;
+  margin-right: 10px;
+}
