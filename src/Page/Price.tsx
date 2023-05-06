@@ -255,7 +255,12 @@ const Price: React.FC = () => {
       
     }
   };
-
+  const onProceed = (e: React.MouseEvent) => {
+    if(recyclePriceResponse.items.length <= 0){
+      e.preventDefault();
+      setErrorMessage("Please add items for recycling request.");
+    }
+  }
   return (
     <Container fluid className="pt-5">
       <div>
@@ -401,7 +406,8 @@ const Price: React.FC = () => {
             >
               Clear
             </Button>
-            <Link className="mx-2 button" to="/submitRequest" state={{recycleRequestToSubmit: recyclePriceResponse.items, totalPrice: recyclePriceResponse.totalPrice}}>
+            <Link className="mx-2 button" to="/submitRequest" onClick={onProceed } 
+                  state={{recycleRequestToSubmit: recyclePriceResponse.items, totalPrice: recyclePriceResponse.totalPrice, promoCodeToSubmit: promoCode}}>
             <Button
               className="w-100"
               variant="success"

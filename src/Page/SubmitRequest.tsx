@@ -32,19 +32,24 @@ const SubmitRequest = () => {
     const navigate = useNavigate();
 
     let recycleRequest: RecycleRequestItem[] = [];
-    let totalPrice: number = 0.00
+    let totalPrice: number = 0.00;
+    let promoCode:  string ="";
+
     if(location.state)
     {
         //const { data } = location.state;
         recycleRequest = location.state.recycleRequestToSubmit;
         totalPrice = location.state.totalPrice;
-        console.log("recycleRequestToSubmit from getPrice:")
-        console.log(recycleRequest);
-        console.log("totalPrice from getPrice")
-        console.log(totalPrice);    
+        promoCode = location.state.promoCodeToSubmit;
+        //console.log("recycleRequestToSubmit from getPrice:")
+        //console.log(recycleRequest);
+        //console.log("totalPrice from getPrice")
+        //console.log(totalPrice);    
+        //console.log("promoCode from getPrice")
+        //console.log(promoCode);    
     }
 
-    const initialRequest:RecycleRequest = {email: "", contactPerson:'', contactNumber:'', collectionDate: '', promoCode: '', data: recycleRequest} 
+    const initialRequest:RecycleRequest = {email: "", contactPerson:'', contactNumber:'', collectionDate: '', promoCode: promoCode, data: recycleRequest} 
     const [request, setRequest] = useState<RecycleRequest>(initialRequest);
     const [totalPriceDisplay] = useState<number>(totalPrice);
     //console.log(request);
@@ -100,12 +105,15 @@ const SubmitRequest = () => {
     const submitRequest = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         //validate request request
-        setIsValidContactPerson(request.contactPerson.length > 0);
-        setIsValidContactNumber(/^([0-9]){8}$/.test(request.contactNumber));
-        setIsValidCollectionTime(isValidDate(request.collectionDate, 3));
+        let validContactPerson = request.contactPerson.length > 0;
+        let validaContactNumber = /^([0-9]){8}$/.test(request.contactNumber);
+        let validCollectionTime =isValidDate(request.collectionDate, 3);
+        setIsValidContactPerson(validContactPerson);
+        setIsValidContactNumber(validaContactNumber);
+        setIsValidCollectionTime(validCollectionTime);
         //console.log('Submit Request token: '+token);
         console.log(request)
-        if(isValidCollectionTime && isValidContactNumber && isValidContactPerson){
+        if(validContactPerson && validaContactNumber && validCollectionTime){
             try
             {
                 console.log('Submitting Request to '+process.env.REACT_APP_RECYCLE_API_URL+'/api/v1/request/recycle')
@@ -210,6 +218,11 @@ const SubmitRequest = () => {
                 </Row>
                 <Row>
                     <Col>
+                        <span>Promo Code Applied: {promoCode}</span>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
                         <Link to="/price" state={{recycleRequestPass: recycleRequest}}>
                             <Button variant="back" type="button">Back</Button>
                         </Link>
@@ -223,6 +236,7 @@ const SubmitRequest = () => {
                     {requestResult && <div className="text-success mr-2 d-inline-block">{requestResult}</div>}
                     </Col>
                 </Row>
+
           </Table>
         </Form>
     </div>

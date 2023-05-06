@@ -14,7 +14,7 @@ export function isLogin()
 export function getToken()
 {
     let token = Cookies.get(ACCESS_TOKEN) ;
-    console.log('getToken: '+token);
+    //console.log('getToken: '+token);
     if (token){
         return token;
     } else {
