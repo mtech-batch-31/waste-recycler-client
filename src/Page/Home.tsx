@@ -166,7 +166,7 @@ const Home: React.FC = () => {
           recycleReqs = recycleReqs.filter((r) =>
             r.collectionStatus.toLocaleLowerCase().includes("pending")
           );
-          if (recycleReqs.length >= 0) {
+          if (recycleReqs.length > 0) {
             setRecycleRequest(recycleReqs[0]);
           }
         })
