@@ -285,14 +285,14 @@ const Price: React.FC = () => {
                   <td>{item.quantity}</td>
                   <td>{item.unitOfMeasurement}</td>
                   <td>{item.description}</td>
-                  <td>${item.subTotalPrice}</td>
+                  <td>${item.subTotalPrice.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</td>
                 </tr>
               ))}
 
               <tr>
                 <td colSpan={5}>Total</td>
                 <td>
-                  ${recyclePriceResponse && recyclePriceResponse.totalPrice}
+                  ${recyclePriceResponse && recyclePriceResponse.totalPrice.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                 </td>
               </tr>
             </tbody>
@@ -401,7 +401,7 @@ const Price: React.FC = () => {
             >
               Clear
             </Button>
-            <Link className="mx-2 button" to="/submitRequest" state={{recycleRequestPass: recyclePriceResponse.items}}>
+            <Link className="mx-2 button" to="/submitRequest" state={{recycleRequestToSubmit: recyclePriceResponse.items, totalPrice: recyclePriceResponse.totalPrice}}>
             <Button
               className="w-100"
               variant="success"

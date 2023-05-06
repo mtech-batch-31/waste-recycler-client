@@ -210,7 +210,7 @@ const Home: React.FC = () => {
                   <div className="row d-flex justify-content-between">
                     <div className="col">
                       <span className="field-label">Collection Date:</span>{" "}
-                      {recycleRequest.collectionDate.substring(
+                      {recycleRequest.collectionDate !== null && recycleRequest.collectionDate.substring(
                         0,
                         recycleRequest.collectionDate.length - 3
                       )}
