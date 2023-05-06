@@ -4,6 +4,7 @@ import "../../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import "../../node_modules/bootstrap/dist/js/bootstrap.bundle.min"
 import { Button, Form, Container, Row, Col, Alert} from 'react-bootstrap';
 import axios, { AxiosError } from 'axios';
+import "./Register.css";
 
 interface RegisterAccountState 
 {
@@ -165,18 +166,30 @@ const RegisterAccount = () => {
 
     const generateDummyData = () => {
         setFormData({
-          email: "dummy@mail.com",
+          email: "andrew@mail.com",
           password: "P@ssw0rd",
           confirmPassword: "P@ssw0rd",
-          firstName: "John",
-          lastName: "Doe",
-          contactNumber: "83930521",
-          street: "Main Street",
+          firstName: "Andrew",
+          lastName: "Tan",
+          contactNumber: "65162093",
+          street: "25 Heng Mui Keng Terrace, Institute of Systems Science, Singapore 119615",
           blockNo: "123",
           floorNo: "4",
           unitNo: "10",
-          postalCode: "123450",
+          postalCode: "119615",
         });
+        setIsEmailValid(true);
+        setIsPasswordValid(true);
+        setIsConfirmPasswordValid(true);
+        setIsFirstNameValid(true);
+        setIsLastNameValid(true);
+        setIsContactValid(true);
+        setIsStreetValid(true);
+        setIsBlockValid(true);
+        setIsPostCodeValid(true);
+        setIsUnitNoValid(true);
+        setIsFloorNoValid(true);
+        setRegisterResult({ isSuccess: false, message: '' });
       };
 
       function timeout(delay: number) {
@@ -261,7 +274,7 @@ const RegisterAccount = () => {
                     <Link to="/"><Button variant="primary" className="btn-custom-outline">Back to Login</Button></Link>
                 </Col>
                 <Col>
-                <Button variant="primary" onClick={generateDummyData}>Generate Dummy Data</Button>
+                <Button variant="primary" className="btn-custom-invisible" onClick={generateDummyData}>Dummy</Button>
                 </Col>
                 <Col className="d-flex justify-content-end">
                     <Button variant="primary" type="submit" className="btn-custom">Register</Button>
