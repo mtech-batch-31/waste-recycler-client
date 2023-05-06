@@ -4,6 +4,23 @@ import './index.css';
 import App from './App';
 import Login from './Page/Login';
 import reportWebVitals from './reportWebVitals';
+import axios from "axios";
+import Cookies from "js-cookie";
+
+axios.interceptors.request.use(request => {
+
+    const token = Cookies.get('XSRF-TOKEN');
+    console.log("token")
+    console.log(token)
+    if (token) {
+        request.headers['X-XSRF-TOKEN'] = token;
+    }
+
+    return request;
+}, error => {
+    return Promise.reject(error);
+});
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
