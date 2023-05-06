@@ -223,7 +223,8 @@ const SubmitRequest = () => {
                 </Row>
                 <Row>
                     <Col>
-                        <Link to="/price" state={{recycleRequestPass: recycleRequest}}>
+                        <Link to="/price" 
+                            state={{recycleRequestItemsReturn: location.state.recycleRequestToSubmit, totalPriceReturn: location.state.totalPrice, promoCodeReturn: location.state.promoCodeToSubmit}}>
                             <Button variant="back" type="button">Back</Button>
                         </Link>
                     </Col>

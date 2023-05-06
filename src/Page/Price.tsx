@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Container, Row, Col, Table } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "./Price.css";
@@ -59,36 +59,48 @@ interface ResponseData {
   refreshToken: string;
 }
 
-
+const recycleFormDataEmpty: RecycleFormState = {
+  category: "",
+  quantity: 0,
+  unitOfMeasurement: "unit",
+  description: "",
+  promoCode: ""
+};
+let recyclePriceRespEmpty: RecyclePriceResponse = {
+  returnCode: "",
+  message: "",
+  promoCode: "",
+  totalPrice: 0,
+  items: [],
+};
 
 const Price: React.FC = () => {
   const navigate = useNavigate();
-  const recycleFormDataEmpty: RecycleFormState = {
-    category: "",
-    quantity: 0,
-    unitOfMeasurement: "unit",
-    description: "",
-    promoCode: ""
-  };
-  const recyclePriceRespEmpty: RecyclePriceResponse = {
-    returnCode: "",
-    message: "",
-    promoCode: "",
-    totalPrice: 0,
-    items: [],
-  };
+  const location = useLocation();
+  let totalPriceReturn = "";
+  let promoCodeReturn = "";
+  let requestItems = [];
+  let recycleRequestEmpty: RecycleRequestItem[] = [];
 
-  const recycleRequestEmpty: RecycleRequestItem[] = [];
+  if(location.state)
+  {
+    totalPriceReturn = location.state.totalPriceReturn;
+    promoCodeReturn = location.state.promoCodeReturn;
+    requestItems = location.state.recycleRequestItemsReturn;
+
+    //console.log("PromoCode return: "+promoCodeReturn)
+    //console.log("TotalPriceReturn: "+totalPriceReturn)
+    recyclePriceRespEmpty.totalPrice = Number(totalPriceReturn);
+    recyclePriceRespEmpty.promoCode = promoCodeReturn;
+    recyclePriceRespEmpty.items = requestItems;
+    recycleRequestEmpty = requestItems;
+  }
+
   const [recycleCategories, setRecycleCategories] = useState<RecycleCategoriesResponseItem[]>([]);
-  useState<RecycleRequestItem[]>(recycleRequestEmpty);
-  const [recycleRequest, setRecycleRequest] =
-    useState<RecycleRequestItem[]>(recycleRequestEmpty);
-  // const [isQuantityValid, setIsQuantityValid] = useState(true);
-  const [recyclePriceResponse, setRecyclePriceResponse] =
-    useState<RecyclePriceResponse>(recyclePriceRespEmpty);
-    const [promoCode, setPromoCode] = useState<string>("");
+  const [recycleRequest, setRecycleRequest] = useState<RecycleRequestItem[]>(recycleRequestEmpty);
+  const [recyclePriceResponse, setRecyclePriceResponse] = useState<RecyclePriceResponse>(recyclePriceRespEmpty);
+  const [promoCode, setPromoCode] = useState<string>(promoCodeReturn);
   const [formData, setFormData] = useState<RecycleFormState>(recycleFormDataEmpty);
-  // const [formData, setFormData] = useState<LoginFormState>(initialFormData);
   const [responseData, setResponseData] = useState<ResponseData | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -239,6 +251,7 @@ const Price: React.FC = () => {
         setRecycleRequest(newRecycleRequest);
         setPromoCode(formData.promoCode);
         setErrorMessage("");
+        resetFormData();
       } else if (response.status == 403){
         removeToken();
         navigate("/");
@@ -260,6 +273,16 @@ const Price: React.FC = () => {
       e.preventDefault();
       setErrorMessage("Please add items for recycling request.");
     }
+  }
+  const resetFormData = () => {
+    setFormData(prevData => {
+      return {...prevData,
+         category: "",
+         quantity: 0,
+         unitOfMeasurement: "unit",
+         description: ""}
+  });
+
   }
   return (
     <Container fluid className="pt-5">
