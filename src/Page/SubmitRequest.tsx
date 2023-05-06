@@ -127,12 +127,7 @@ const SubmitRequest = () => {
         }
     }
 
-    const handleFormKeyPress = (event: React.KeyboardEvent<HTMLFormElement>) => {
-        if (event.key === 'Enter') {
-          event.preventDefault();
-          submitRequest(event);
-        }
-      };
+
 
     return (<Container fluid className="pt-5">
 
@@ -141,7 +136,7 @@ const SubmitRequest = () => {
           <h1 className="text-center p-3">Recycle Cart</h1>
           <h2 className="text-center">Step 2) Submit Request</h2>
         </div>
-        <Form onSubmit={submitRequest} onKeyPress={handleFormKeyPress}>
+        <Form onSubmit={submitRequest}>
             <Table bordered hover>
             <thead>
                 <tr>

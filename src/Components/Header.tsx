@@ -16,6 +16,7 @@ const Header = () => {
         Cookies.remove(ACCESS_TOKEN);
         navigate('/');
     }
+
     return (
     <Stack direction="horizontal" gap={5} className="header">
             <div className="mx-2">
@@ -28,7 +29,8 @@ const Header = () => {
                 { hasTokenValue &&<NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/Price">Price Estimate</NavLink>}
             </div>
             <div className="ms-auto">
-                {!hasTokenValue && <NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/">Login/Register</NavLink>}
+            {!hasTokenValue && <NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/">Login</NavLink>}
+            {!hasTokenValue && <NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/register">/Register</NavLink>}
             </div>
             <div>
                 { hasTokenValue && <IoIosLogOut aria-label='logout' className='user-icon' onClick={logout} />}
