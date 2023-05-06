@@ -1,6 +1,6 @@
 import { Container, Table, Row, Col, Form, Button} from "react-bootstrap";
-import { useLocation } from "react-router";
-import { Link, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router";
+import { Link } from "react-router-dom"
 import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { getToken } from "../utilities/auth";
@@ -29,6 +29,8 @@ interface RecycleRequest{
   }
 const SubmitRequest = () => {
     const location = useLocation();
+    const navigate = useNavigate();
+
     let recycleRequest: RecycleRequestItem[] = [];
     let totalPrice: number = 0.00
     if(location.state)
@@ -52,8 +54,7 @@ const SubmitRequest = () => {
     const [isValidContactPerson, setIsValidContactPerson] = useState<boolean>(true);
     const [isValidContactNumber, setIsValidContactNumber] = useState<boolean>(true);
     const [isValidCollectionTime, setIsValidCollectionTime] = useState<boolean>(true);
-    const navigate = useNavigate();
-
+ 
     const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         //console.log(event.target.id);      
         //console.log(event.target.name);      
@@ -114,9 +115,10 @@ const SubmitRequest = () => {
                 const apiResponse = response?.data as APIResponse
                 console.log(response);
                 if(apiResponse?.message)
-                    setRequestResult(apiResponse.message);
+                    setRequestResult(apiResponse.message + " You will be redirected to home page.");
                 else
-                    setRequestResult("Your request is successfully submitted.");
+                    setRequestResult("Your request is successfully submitted. You will be redirected to home page");
+                setTimeout(function(){navigate("/home");}, 1000);
             }
             catch(error)
             {
@@ -213,7 +215,7 @@ const SubmitRequest = () => {
                         </Link>
                     </Col>
                     <Col className="d-flex justify-content-end">
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit" variant="submit">Submit</Button>
                     </Col>
                 </Row>
                 <Row>
