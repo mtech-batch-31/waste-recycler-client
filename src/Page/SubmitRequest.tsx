@@ -27,14 +27,6 @@ interface RecycleRequest{
       message: string;
       returnCode: string;
   }
-  const initFormState: RecycleRequest = {
-    email: '',
-    contactPerson: '',
-    contactNumber: '',
-    collectionDate: '',
-    promoCode: '',
-    data: []
-};
 const SubmitRequest = () => {
     const location = useLocation();
     let recycleRequest: RecycleRequestItem[] = [];
@@ -102,10 +94,6 @@ const SubmitRequest = () => {
         {
             return false;
         }
-    }
-
-    function timeout(delay: number) {
-        return new Promise( res => setTimeout(res, delay) );
     }
 
     const submitRequest = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -193,7 +181,7 @@ const SubmitRequest = () => {
                             onChange={onChangeHandler}
                             isInvalid={!isValidContactPerson} />
                         <Form.Control.Feedback type="invalid">Please enter contact person.</Form.Control.Feedback>
-                        </Form.Group>
+                       </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group controlId="contactNumber">
@@ -215,8 +203,7 @@ const SubmitRequest = () => {
                                 onChange={onChangeHandler}
                                 isInvalid={!isValidCollectionTime} />
                             <Form.Control.Feedback type="invalid">Please enter valid collection date time.</Form.Control.Feedback>
-                        <Form.Label>Collection Date</Form.Label>
-                        </Form.Group>
+                            </Form.Group>
                     </Col>
                 </Row>
                 <Row>

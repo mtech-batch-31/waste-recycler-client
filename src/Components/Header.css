@@ -36,3 +36,7 @@
     margin-right: 50px;
     cursor: pointer;
 }
+.nav-item-active,
+.nav-item {
+    color: #0CA789 !important;
+}
