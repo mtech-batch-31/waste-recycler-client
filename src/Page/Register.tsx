@@ -165,17 +165,17 @@ const RegisterAccount = () => {
 
     const generateDummyData = () => {
         setFormData({
-          email: "dummy@mail.com",
+          email: "andrew@mail.com",
           password: "P@ssw0rd",
           confirmPassword: "P@ssw0rd",
-          firstName: "John",
-          lastName: "Doe",
-          contactNumber: "83930521",
-          street: "Main Street",
+          firstName: "Andrew",
+          lastName: "Tan",
+          contactNumber: "65162093",
+          street: "25 Heng Mui Keng Terrace, Institute of Systems Science, Singapore 119615",
           blockNo: "123",
           floorNo: "4",
           unitNo: "10",
-          postalCode: "123450",
+          postalCode: "119615",
         });
       };
 
