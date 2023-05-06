@@ -1,6 +1,6 @@
 import { Container, Table, Row, Col, Form, Button} from "react-bootstrap";
 import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { getToken } from "../utilities/auth";
@@ -24,7 +24,33 @@ interface RecycleRequest{
       message: string;
       returnCode: string;
   }
+  const initFormState: RecycleRequest = {
+    email: '',
+    contactPerson: '',
+    contactNumber: '',
+    collectionDate: '',
+    promoCode: '',
+    data: []
+};
 const SubmitRequest = () => {
+    const [formData, setFormData] = useState<RecycleRequest>(initFormState);
+    const [isContactPersonValid, setisContactPersonValid] = useState(true);
+    const [isContactNumberValid, setisContactNumberValid] = useState(true);
+    const [isCollectionDateValid, setisCollectionDateValid] = useState(true);
+    const onBlurHandler = (event: React.FocusEvent<HTMLInputElement>) => {
+        switch(event.target.id )
+        {
+            case 'collectionDate':
+                setisCollectionDateValid(formData.collectionDate.length > 0);
+                break;
+            case 'contactNumber':
+                setisContactNumberValid(/^([0-9]){8}$/.test(formData.contactNumber));
+                break;
+            case 'contactPerson':
+                setisContactPersonValid(formData.contactPerson.length > 0);
+                break;
+        }
+    }
     const location = useLocation();
     let recycleRequest: RecycleRequestItem[] = [];
     if(location.state)
@@ -38,6 +64,7 @@ const SubmitRequest = () => {
     //console.log(request);
     const token = getToken();
     const [requestResult, setRequestResult] = useState<String>('');
+    const navigate = useNavigate();
 
     const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         //console.log(event.target.id);      
@@ -62,6 +89,11 @@ const SubmitRequest = () => {
             });
         }
     }
+
+    function timeout(delay: number) {
+        return new Promise( res => setTimeout(res, delay) );
+    }
+
     const submitRequest = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         //validate request request
@@ -79,6 +111,8 @@ const SubmitRequest = () => {
                 setRequestResult(apiResponse.message);
             else
                 setRequestResult("Your request is successfully submitted.");
+                await timeout(1500); //for 1 sec delay
+                navigate("/Home");
         }
         catch(error)
         {
@@ -93,6 +127,13 @@ const SubmitRequest = () => {
         }
     }
 
+    const handleFormKeyPress = (event: React.KeyboardEvent<HTMLFormElement>) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          submitRequest(event);
+        }
+      };
+
     return (<Container fluid className="pt-5">
 
       <div className="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
@@ -100,7 +141,7 @@ const SubmitRequest = () => {
           <h1 className="text-center p-3">Recycle Cart</h1>
           <h2 className="text-center">Step 2) Submit Request</h2>
         </div>
-        <Form onSubmit={submitRequest}>
+        <Form onSubmit={submitRequest} onKeyPress={handleFormKeyPress}>
             <Table bordered hover>
             <thead>
                 <tr>
@@ -141,7 +182,9 @@ const SubmitRequest = () => {
                             type="text"
                             name="contactPerson" 
                             onChange={onChangeHandler}
+                            required
                         />
+                        <Form.Control.Feedback type="invalid">Please enter this field.</Form.Control.Feedback>
                         </Form.Group>
                         </Col>
                     <Col>
@@ -151,7 +194,9 @@ const SubmitRequest = () => {
                             type="text"
                             name="contactNumber"
                             onChange={onChangeHandler}
+                            required
                         />
+                        <Form.Control.Feedback type="invalid">Please enter this field.</Form.Control.Feedback>
                         </Form.Group>
                     </Col>
                     <Col>
@@ -161,7 +206,9 @@ const SubmitRequest = () => {
                             type="date"
                             name="collectionDate"
                             onChange={onChangeHandler}
+                            required
                         />
+                        <Form.Control.Feedback type="invalid">Please enter this field.</Form.Control.Feedback>
                         </Form.Group>
                     </Col>
                 </Row>
@@ -182,7 +229,9 @@ const SubmitRequest = () => {
                     </Button></Col>
                 </Row>
                 <Row>
-                    <Col>{requestResult}</Col>
+                    <Col>
+                    {requestResult && <div className="text-success mr-2 d-inline-block">{requestResult}</div>}
+                    </Col>
                 </Row>
           </Table>
         </Form>
