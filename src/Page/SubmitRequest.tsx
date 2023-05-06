@@ -225,11 +225,11 @@ const SubmitRequest = () => {
                     <Col>
                         <Link to="/price" 
                             state={{recycleRequestItemsReturn: location.state.recycleRequestToSubmit, totalPriceReturn: location.state.totalPrice, promoCodeReturn: location.state.promoCodeToSubmit}}>
-                            <Button variant="back" type="button">Back</Button>
+                            <Button variant="danger" type="button" className="btn-back">Back</Button>
                         </Link>
                     </Col>
                     <Col className="d-flex justify-content-end">
-                        <Button type="submit" variant="submit">Submit</Button>
+                        <Button type="submit" variant="submit" className="btn-submit">Submit</Button>
                     </Col>
                 </Row>
                 <Row>

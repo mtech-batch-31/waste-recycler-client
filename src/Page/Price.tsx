@@ -423,7 +423,7 @@ const Price: React.FC = () => {
           </Form>
           <div className="mt-4 d-flex align-items-center justify-content-center">
             <Button
-              className="button"
+              className="btn-back"
               variant="danger"
               onClick={handleClear}
             >
@@ -432,7 +432,7 @@ const Price: React.FC = () => {
             <Link className="mx-2 button" to="/submitRequest" onClick={onProceed } 
                   state={{recycleRequestToSubmit: recyclePriceResponse.items, totalPrice: recyclePriceResponse.totalPrice, promoCodeToSubmit: promoCode}}>
             <Button
-              className="w-100"
+              className="btn-submit"
               variant="success"
             >
               Proceed

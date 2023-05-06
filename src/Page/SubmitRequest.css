@@ -12,31 +12,28 @@ label {
     border-radius: 10px;
     font-size: 16px;
     font-weight: bold;
-    width: 20vmin;
-    min-width: 60px;
-    margin-top: 5px;
-    padding: 4px;
-    margin-top: 10px;
     cursor: pointer;
   }
   .btn-back:hover {
     background-color: #f10d0d;
     color: #FFFFFF;
  }
-  .btn-submit {
-    background-color: #0CA789 !important;
-    color: #FFFFFF;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    width: 15vmin;
-    min-width: 60px;
-    margin-top: 5px;
-    padding: 4px;
-    margin-top: 10px;
-    cursor: pointer;
+ .btn-submit {
+  background-color: #0CA789 !important;
+  color: #FFFFFF;
+  border: 3px solid  #0CA789;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  width: 20vmin !important;
+  min-width: 60px !important;
+  margin-top: 5px !important;
+  padding: 4px !important;
+  margin-top: 10px !important;
+  cursor: pointer;
   }
-  .btn-submit:hover {
-    background-color: #0CA789;
-    color: #FFFFFF;
-  }
+.btn-submit:hover {
+  background-color: #0CA789;
+  color: #FFFFFF !important;
+  border: 3px solid  #26704c !important;
+}
