@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { getToken } from "../utilities/auth";
+import "./SubmitRequest.css";
 
 interface RecycleRequestItem {
     category: string;
@@ -24,33 +25,23 @@ interface RecycleRequest{
       message: string;
       returnCode: string;
   }
-  const initFormState: RecycleRequest = {
-    email: '',
-    contactPerson: '',
-    contactNumber: '',
-    collectionDate: '',
-    promoCode: '',
-    data: []
-};
 const SubmitRequest = () => {
-    const [formData, setFormData] = useState<RecycleRequest>(initFormState);
     const [isContactPersonValid, setisContactPersonValid] = useState(true);
     const [isContactNumberValid, setisContactNumberValid] = useState(true);
     const [isCollectionDateValid, setisCollectionDateValid] = useState(true);
     const onBlurHandler = (event: React.FocusEvent<HTMLInputElement>) => {
-        switch(event.target.id )
-        {
-            case 'collectionDate':
-                setisCollectionDateValid(formData.collectionDate.length > 0);
-                break;
-            case 'contactNumber':
-                setisContactNumberValid(/^([0-9]){8}$/.test(formData.contactNumber));
-                break;
-            case 'contactPerson':
-                setisContactPersonValid(formData.contactPerson.length > 0);
-                break;
+        switch (event.target.id) {
+          case 'collectionDate':
+            setisCollectionDateValid(request.collectionDate.length > 0);
+            break;
+          case 'contactNumber':
+            setisContactNumberValid(/^([0-9]){8}$/.test(request.contactNumber));
+            break;
+          case 'contactPerson':
+            setisContactPersonValid(request.contactPerson.length > 0);
+            break;
         }
-    }
+      }
     const location = useLocation();
     let recycleRequest: RecycleRequestItem[] = [];
     if(location.state)
@@ -99,6 +90,11 @@ const SubmitRequest = () => {
         //validate request request
         //console.log('Submit Request token: '+token);
         //console.log(request)
+        setisCollectionDateValid(request.collectionDate.length > 0);
+        setisContactNumberValid(/^([0-9]){8}$/.test(request.contactNumber));
+        setisContactPersonValid(request.contactPerson.length > 0);
+
+        if(isCollectionDateValid && isContactNumberValid && isContactPersonValid)
         try
         {
             console.log('Submitting Request to '+process.env.REACT_APP_RECYCLE_API_URL+'/api/v1/request/recycle')
@@ -179,7 +175,6 @@ const SubmitRequest = () => {
                             onChange={onChangeHandler}
                             required
                         />
-                        <Form.Control.Feedback type="invalid">Please enter this field.</Form.Control.Feedback>
                         </Form.Group>
                         </Col>
                     <Col>
@@ -191,7 +186,6 @@ const SubmitRequest = () => {
                             onChange={onChangeHandler}
                             required
                         />
-                        <Form.Control.Feedback type="invalid">Please enter this field.</Form.Control.Feedback>
                         </Form.Group>
                     </Col>
                     <Col>
@@ -203,7 +197,6 @@ const SubmitRequest = () => {
                             onChange={onChangeHandler}
                             required
                         />
-                        <Form.Control.Feedback type="invalid">Please enter this field.</Form.Control.Feedback>
                         </Form.Group>
                     </Col>
                 </Row>
@@ -212,14 +205,14 @@ const SubmitRequest = () => {
                     <Link to="/price" state={{recycleRequestPass: recycleRequest}}>
                     <Button
                     className="button"
-                    variant="outline-danger"
-                    type="submit"      
+                    variant="danger"
+                    type="button"      
                     >
                     Back
                     </Button></Link>
                     </Col>
                     <Col className="d-flex justify-content-end">
-                    <Button type="submit" variant="success" className="btn btn-primary text-success">
+                    <Button type="submit" variant="success" className="submit-button">
                         Submit
                     </Button></Col>
                 </Row>
