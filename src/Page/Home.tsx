@@ -275,7 +275,7 @@ const Home: React.FC = () => {
               .filter(
                 (req) => req.collectionStatus.toLocaleLowerCase() == "collected"
               ).length < 1 && 
-              <div className="my-3">No upcoming collection</div>
+              <div className="my-3">No past collection</div>
             }
             {recycleRequests
               .filter(
