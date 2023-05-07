@@ -61,7 +61,7 @@ const RegisterAccount = () => {
 
     const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = event.target;
-        setFormData({ ...formData, [id]: value.trim() });
+        setFormData({ ...formData, [id]: value });
     }
     const onBlurHandler = (event: React.FocusEvent<HTMLInputElement>) => {
         switch(event.target.id )
