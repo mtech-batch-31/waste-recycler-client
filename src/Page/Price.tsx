@@ -191,7 +191,7 @@ const Price: React.FC = () => {
       console.error("invalid category");
       setErrorMessage("Please select a category")
       return;
-    } else if (formData.quantity <= 0.1) {
+    } else if (formData.quantity < 0.1) {
       // setIsQuantityValid(false);
       console.error("invalid quantity");
       setErrorMessage("Invalid quantity")
