@@ -1,8 +1,7 @@
 {
   "*.{ts,tsx}": [
-    "npm install",
     "npm run build",
-    "npm run test",
+    "npm run test -- --watchAll=false --passWithNoTests",
     "npm run lint --fix"
   ]
 }
