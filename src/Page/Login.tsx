@@ -53,10 +53,6 @@ const Login: React.FC = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    function timeout(delay: number) {
-        return new Promise( res => setTimeout(res, delay) );
-    }
-
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setResponseData(null);
@@ -78,7 +74,7 @@ const Login: React.FC = () => {
             setIsLoggedIn(true);
             navigate("/home");
         }
-        
+
         } catch (error) {
             setErrorMessage('Couldn\'t find your account');
             removeToken();

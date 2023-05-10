@@ -14,20 +14,6 @@ interface RecycleCategoriesResponseItem {
   unitOfMeasurement: string;
 }
 
-interface RecyclePriceResponse {
-  returnCode: string;
-  message: string;
-  totalPrice: number;
-  items: RecyclePriceResponseItem[];
-}
-
-interface RecyclePriceResponseItem {
-  name: string;
-  quantity: number;
-  unitPrice: number;
-  subTotalPrice: number;
-}
-
 interface RecycleRequest {
   id: string;
   email: string;
@@ -49,37 +35,8 @@ interface RecycleRequestItem {
   description: string;
 }
 
-interface RecycleFormState {
-  category: string;
-  quantity: number;
-  unitOfMeasurement: string;
-  description: string;
-  promoCode: string;
-}
-
-
-interface ResponseData {
-  message: string;
-  accessToken: string;
-  refreshToken: string;
-}
-
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const recycleFormDataEmpty: RecycleFormState = {
-    category: "",
-    quantity: 0,
-    unitOfMeasurement: "unit",
-    description: "",
-    promoCode: "",
-  };
-  const recyclePriceRespEmpty: RecyclePriceResponse = {
-    returnCode: "",
-    message: "",
-    totalPrice: 0,
-    items: [],
-  };
-
   const recycleRequestEmpty: RecycleRequest = {
     id: "",
     email: "",
@@ -154,7 +111,6 @@ const Home: React.FC = () => {
           }
           let recycleReqs: RecycleRequest[] = response.data;
           setRecycleRequests(response.data);
-          let pendingRecycleReq: RecycleRequest;
           recycleReqs = recycleReqs.filter((r) =>
             r.collectionStatus.toLocaleLowerCase().includes("pending")
           );
