@@ -26,7 +26,15 @@ jobs:
           node-version: 18
           cache: 'npm'
       - run: npm ci
-      - run: npm test
+
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: npm test
+      - name: Test Coverage
+        run: npm run test -- --coverage --watchAll=false
+      - name: Run SonarQube Analysis
+        run: npm run sonar
 
       - name: Build
         uses: actions/setup-node@v3
@@ -42,6 +50,22 @@ jobs:
         with:
           name: my-artifact
           path: build
+
+  audit_dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm run audit
+        continue-on-error: true
 
   build_and_push_image:
     runs-on: ubuntu-latest
