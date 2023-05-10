@@ -101,7 +101,7 @@ const Price: React.FC = () => {
   const [recyclePriceResponse, setRecyclePriceResponse] = useState<RecyclePriceResponse>(recyclePriceRespEmpty);
   const [promoCode, setPromoCode] = useState<string>(promoCodeReturn);
   const [formData, setFormData] = useState<RecycleFormState>(recycleFormDataEmpty);
-  const [responseData, setResponseData] = useState<ResponseData | null>(null);
+  const [responseData, setResponseData] = useState<ResponseData | null>(null); // eslint-disable-line no-unused-vars
   const [errorMessage, setErrorMessage] = useState<string>("");
 
 

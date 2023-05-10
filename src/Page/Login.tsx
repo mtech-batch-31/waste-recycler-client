@@ -27,9 +27,9 @@ const Login: React.FC = () => {
     };
 
     const [formData, setFormData] = useState<LoginFormState>(initialFormData);
-    const [responseData, setResponseData] = useState<ResponseData | null>(null);
+    const [responseData, setResponseData] = useState<ResponseData | null>(null); // eslint-disable-line no-unused-vars
     const [errorMessage, setErrorMessage] = useState<string>('');
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // eslint-disable-line no-unused-vars
     const navigate = useNavigate();
 
     useEffect(() => {
