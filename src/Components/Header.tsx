@@ -34,7 +34,7 @@ const Header = () => {
             </>
             }
             <div className="ms-auto login">
-                <div className="mx-5">
+                <div className="px-5 login">
                     {!hasTokenValue && <NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/">Login</NavLink>}
                     {!hasTokenValue && <NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="register">/Register</NavLink>}
                     { hasTokenValue && <IoIosLogOut aria-label='logout' className='user-icon' onClick={logout} />}
