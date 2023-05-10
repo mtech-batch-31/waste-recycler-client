@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Login from './Login';
+import React from "react"
 
 test('renders email and password form inputs', () => {
     render(

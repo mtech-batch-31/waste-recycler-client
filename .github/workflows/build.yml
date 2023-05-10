@@ -31,10 +31,8 @@ jobs:
         run: npm run lint
       - name: Test
         run: npm test
-      - name: Test Coverage
-        run: npm run test -- --coverage --watchAll=false
       - name: Run SonarQube Analysis
-        run: npm run sonar
+        run: npm run test -- --coverage --watchAll=false && npm run sonar
 
       - name: Build
         uses: actions/setup-node@v3

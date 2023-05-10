@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { RouterProvider, createBrowserRouter,Route, BrowserRouter  as Router } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './Page/Layout';
 import Login from './Page/Login';
 import Price from './Page/Price'
@@ -7,8 +6,9 @@ import Home from './Page/Home'
 import SubmitRequest  from './Page/SubmitRequest';
 import RegisterAccount from './Page/Register'
 import RegistrationConfirm from './Page/RegisterationConfirm'
-import logo from './logo.svg';
-import {isLogin} from './utilities/auth'
+import { isLogin } from './utilities/auth'
+import React from "react"
+
 
 import './App.css';
 

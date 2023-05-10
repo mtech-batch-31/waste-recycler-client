@@ -4,14 +4,16 @@ import { NavLink, useNavigate } from "react-router-dom"
 import { IoIosLogOut } from "react-icons/io"
 import logo from '../Assets/logo512.png';
 import Cookies from 'js-cookie';
-import {ACCESS_TOKEN} from '../utilities/constants'
+import { ACCESS_TOKEN } from '../utilities/constants'
+import React from "react";
+
 
 const Header = () => {
     let hasTokenValue = Cookies.get(ACCESS_TOKEN) !== undefined;
     //console.log(hasTokenValue);
     const navigate = useNavigate();
 
-    const logout = () =>  
+    const logout = () =>
     {
         Cookies.remove(ACCESS_TOKEN);
         navigate('/');
@@ -27,7 +29,7 @@ const Header = () => {
                 <div className="ms-4">
                     <NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/Home">Home</NavLink>
                 </div>
-                
+
                 <div className="ms-4">
                     <NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/Price">Price Estimate</NavLink>
                 </div>

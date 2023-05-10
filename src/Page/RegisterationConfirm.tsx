@@ -2,9 +2,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { API_PATH } from '../utilities/constants';
+import React from "react"
 
 const RegistrationConfirm = () =>{
-    const [queryParams] = useSearchParams();    
+    const [queryParams] = useSearchParams();
     const token = queryParams.get('token');
     console.log(queryParams.get('token'));
 
@@ -17,7 +18,7 @@ const RegistrationConfirm = () =>{
         .catch((error) => console.log(error));
 
     }, [token]);
-    return <main> 
+    return <main>
             <p></p>
             <center>
             {verified && <h1>You have been successfully registered</h1>}
