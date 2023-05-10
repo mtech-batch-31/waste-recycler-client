@@ -28,12 +28,12 @@
 .user-icon {
     font-size: 38px;
     font-weight: bolder;
-    margin-right: 50px;
+    /* margin-right: 50px; */
 }
 .user-icon:hover {
     font-size: 38px;
     font-weight: bolder;
-    margin-right: 50px;
+    /* margin-right: 50px; */
     cursor: pointer;
 }
 .nav-item-active,
@@ -42,5 +42,6 @@
 }
 .logo {
     width: 45px;
+    min-width: 45px;
     height: 45px;
 }

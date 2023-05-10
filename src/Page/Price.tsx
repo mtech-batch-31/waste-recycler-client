@@ -191,7 +191,7 @@ const Price: React.FC = () => {
       console.error("invalid category");
       setErrorMessage("Please select a category")
       return;
-    } else if (formData.quantity < 0.1) {
+    } else if (formData.quantity < 0.1 || (formData.unitOfMeasurement=='piece' && formData.quantity%1!=0))  {
       // setIsQuantityValid(false);
       console.error("invalid quantity");
       setErrorMessage("Invalid quantity")
@@ -265,6 +265,11 @@ const Price: React.FC = () => {
         if(error && error.response && error.response.data && error.response.data.message){
           setErrorMessage(error.response.data.message);
         }
+        if(error && error.response && error.response.status==403){
+          removeToken();
+          navigate("/");
+        }
+
       }
       
     }
@@ -393,8 +398,8 @@ const Price: React.FC = () => {
                     value={formData.quantity}
                     onChange={handleInputChange}
                     // isInvalid={!isQuantityValid}
-                    min="0.1"
-                    step=".01"
+                    min={(formData.unitOfMeasurement=="piece") ? "1": ".1" } 
+                    step={(formData.unitOfMeasurement=="piece") ? "1": ".01" }                    
                     // required
                   />
                   {/* <Form.Control.Feedback type="invalid">Invalid quantity</Form.Control.Feedback> */}
