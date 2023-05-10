@@ -18,22 +18,27 @@ const Header = () => {
     }
 
     return (
-    <Stack direction="horizontal" gap={5} className="header">
+    <Stack direction="horizontal" gap={0} className="header">
             <div className="mx-2 logo">
                 <img src={logo}></img>
             </div>
-            <div>
-                { hasTokenValue &&<NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/Home">Home</NavLink>}
-            </div>
-            <div>
-                { hasTokenValue &&<NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/Price">Price Estimate</NavLink>}
-            </div>
-            <div className="ms-auto">
-            {!hasTokenValue && <NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/">Login</NavLink>}
-            {!hasTokenValue && <NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/register">/Register</NavLink>}
-            </div>
-            <div>
-                { hasTokenValue && <IoIosLogOut aria-label='logout' className='user-icon' onClick={logout} />}
+            { hasTokenValue &&
+            <>
+                <div className="ms-4">
+                    <NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/Home">Home</NavLink>
+                </div>
+                
+                <div className="ms-4">
+                    <NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/Price">Price Estimate</NavLink>
+                </div>
+            </>
+            }
+            <div className="ms-auto login">
+                <div className="mx-5">
+                    {!hasTokenValue && <NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="/">Login</NavLink>}
+                    {!hasTokenValue && <NavLink  className={({isActive}) => isActive? 'nav-item-active':'nav-item'} to="register">/Register</NavLink>}
+                    { hasTokenValue && <IoIosLogOut aria-label='logout' className='user-icon' onClick={logout} />}
+                </div>
             </div>
     </Stack>
     )
