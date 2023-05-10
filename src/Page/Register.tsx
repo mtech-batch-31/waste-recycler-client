@@ -5,8 +5,9 @@ import "../../node_modules/bootstrap/dist/js/bootstrap.bundle.min"
 import { Button, Form, Container, Row, Col, Alert} from 'react-bootstrap';
 import axios, { AxiosError } from 'axios';
 import "./Register.css";
+import React from "react"
 
-interface RegisterAccountState 
+interface RegisterAccountState
 {
     email: string;
     password: string;
@@ -115,15 +116,15 @@ const RegisterAccount = () => {
         setIsPostCodeValid(/^([0-9]){6}$/.test(formData.postalCode));
         setIsFloorNoValid(/^([0-9]){1,2}$/.test(formData.floorNo));
         setIsUnitNoValid(/^([0-9]){1,4}$/.test(formData.unitNo));
-        
+
         //is form is valid
-        if(isEmailValid && isPasswordValid && isConfirmPasswordValid && isContactValid && isFirstNameValid && isLastNameValid && isStreetValid 
+        if(isEmailValid && isPasswordValid && isConfirmPasswordValid && isContactValid && isFirstNameValid && isLastNameValid && isStreetValid
             && isBlockValid && isPostCodeValid && isFloorNoValid && isUnitNoValid)
         {
             try {
                 console.log('calling register API ('+process.env.NODE_ENV +') '+process.env.REACT_APP_RECYCLE_API_URL+'/api/v1/user/register');
                 const response = await axios.post(process.env.REACT_APP_RECYCLE_API_URL+'/api/v1/user/register', {
-                    email: formData.email, 
+                    email: formData.email,
                     password: formData.password,
                     firstName: formData.firstName,
                     lastName: formData.lastName,
@@ -142,8 +143,8 @@ const RegisterAccount = () => {
                     setRegisterResult({isSuccess: true, message: "Your account has been successfully registered."});
                     setTimeout(function(){navigate("/home");}, 2000);
                 }
-                
-            } catch (error) 
+
+            } catch (error)
             {   const err = error as AxiosError;
                 const apiResponse = err.response?.data as APIResponse
                 //console.log(err.response?.data);

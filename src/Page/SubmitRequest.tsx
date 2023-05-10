@@ -5,7 +5,7 @@ import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { getToken } from "../utilities/auth";
 import "./SubmitRequest.css";
-
+import React from "react"
 interface RecycleRequestItem {
     category: string;
     quantity: number;
@@ -44,12 +44,12 @@ const SubmitRequest = () => {
         //console.log("recycleRequestToSubmit from getPrice:")
         //console.log(recycleRequest);
         //console.log("totalPrice from getPrice")
-        //console.log(totalPrice);    
+        //console.log(totalPrice);
         //console.log("promoCode from getPrice")
-        //console.log(promoCode);    
+        //console.log(promoCode);
     }
 
-    const initialRequest:RecycleRequest = {email: "", contactPerson:'', contactNumber:'', collectionDate: '', promoCode: promoCode, data: recycleRequest} 
+    const initialRequest:RecycleRequest = {email: "", contactPerson:'', contactNumber:'', collectionDate: '', promoCode: promoCode, data: recycleRequest}
     const [request, setRequest] = useState<RecycleRequest>(initialRequest);
     const [totalPriceDisplay] = useState<number>(totalPrice);
     //console.log(request);
@@ -59,12 +59,12 @@ const SubmitRequest = () => {
     const [isValidContactPerson, setIsValidContactPerson] = useState<boolean>(true);
     const [isValidContactNumber, setIsValidContactNumber] = useState<boolean>(true);
     const [isValidCollectionTime, setIsValidCollectionTime] = useState<boolean>(true);
- 
+
     const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        //console.log(event.target.id);      
-        //console.log(event.target.name);      
+        //console.log(event.target.id);
+        //console.log(event.target.name);
         //console.log(event.target.value);
-        //validate and set value      
+        //validate and set value
 
         if(event.target.name === 'contactPerson')
         {
@@ -91,7 +91,7 @@ const SubmitRequest = () => {
         var resultDate = Date.parse(date);
         var addDays = afterDays || 0;
         console.log(addDays);
-        var addMs = addDays * 24 * 60 * 60 * 1000; 
+        var addMs = addDays * 24 * 60 * 60 * 1000;
         if(! isNaN(resultDate) && resultDate >= (Date.now() + addMs))
         {
             return true;
@@ -187,7 +187,7 @@ const SubmitRequest = () => {
                         <Form.Label>Contact Person</Form.Label>
                         <Form.Control
                             type="text"
-                            name="contactPerson" 
+                            name="contactPerson"
                             onChange={onChangeHandler}
                             isInvalid={!isValidContactPerson} />
                         <Form.Control.Feedback type="invalid">Please enter contact person.</Form.Control.Feedback>
@@ -223,7 +223,7 @@ const SubmitRequest = () => {
                 </Row>
                 <Row>
                     <Col>
-                        <Link to="/price" 
+                        <Link to="/price"
                             state={{recycleRequestItemsReturn: location.state.recycleRequestToSubmit, totalPriceReturn: location.state.totalPrice, promoCodeReturn: location.state.promoCodeToSubmit}}>
                             <Button variant="danger" type="button" className="btn-back">Back</Button>
                         </Link>
