@@ -1,4 +1,8 @@
 {
-    "*.ts": "eslint --cache --fix",
-    "*.tsx": "eslint --cache --fix"
-  }
+  "*.{ts,tsx}": [
+    "npm install",
+    "npm run build",
+    "npm run test",
+    "npm run lint --fix"
+  ]
+}

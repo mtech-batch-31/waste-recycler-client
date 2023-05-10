@@ -34,7 +34,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
     "sonar": "sonar-scanner",
-    "audit": "npm audit"
+    "audit": "npm audit",
+    "postinstall": "husky install"
   },
   "eslintConfig": {
     "extends": []
