@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Button, Form, Container, Row, Col, Table } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Container, Table } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import "./Home.css";
+import Cookies from "js-cookie";
+import { getToken, removeToken } from "../utilities/auth";
+import { API_PATH } from "../utilities/constants";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
-import "./Home.css";
-import axios from "axios";
-// import MockAdapter from 'axios-mock-adapter'; // import the mocking library
-import Cookies from "js-cookie";
-import { TABLE_DATA, CATEGORY_DATA, API_PATH } from "../utilities/constants";
-import { getToken, removeToken } from "../utilities/auth";
 
 interface RecycleCategoriesResponseItem {
   category: string;
@@ -58,10 +57,6 @@ interface RecycleFormState {
   promoCode: string;
 }
 
-// interface LoginFormState {
-//     email: string;
-//     password: string;
-// }
 
 interface ResponseData {
   message: string;
@@ -104,9 +99,6 @@ const Home: React.FC = () => {
 
   const [recycleRequest, setRecycleRequest] =
     useState<RecycleRequest>(recycleRequestEmpty);
-
-  const [responseData, setResponseData] = useState<ResponseData | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const validateToken = () => {
     const token = getToken();
@@ -210,7 +202,9 @@ const Home: React.FC = () => {
                   <div className="row d-flex justify-content-between">
                     <div className="col">
                       <span className="field-label">Collection Date:</span>{" "}
-                      {recycleRequest.collectionDate.substring(0, recycleRequest.collectionDate.length).replace('T', ' ')}
+                      {recycleRequest.collectionDate
+                        .substring(0, recycleRequest.collectionDate.length)
+                        .replace("T", " ")}
                     </div>
                     <div className="col">
                       <span className="field-label">Status: </span>
@@ -271,12 +265,9 @@ const Home: React.FC = () => {
             <div className="mt-5">
               <h1 className="">Past Collections</h1>
             </div>
-            {recycleRequests
-              .filter(
-                (req) => req.collectionStatus.toLocaleLowerCase() == "collected"
-              ).length < 1 && 
-              <div className="my-3">No past collection</div>
-            }
+            {recycleRequests.filter(
+              (req) => req.collectionStatus.toLocaleLowerCase() == "collected"
+            ).length < 1 && <div className="my-3">No past collection</div>}
             {recycleRequests
               .filter(
                 (req) => req.collectionStatus.toLocaleLowerCase() == "collected"
@@ -288,7 +279,9 @@ const Home: React.FC = () => {
                   <div className="row d-flex justify-content-between">
                     <div className="col">
                       <span className="field-label">Collection Date:</span>{" "}
-                      {req.collectionDate.substring(0, req.collectionDate.length).replace('T', ' ')}
+                      {req.collectionDate
+                        .substring(0, req.collectionDate.length)
+                        .replace("T", " ")}
                     </div>
                     <div className="col">
                       <span className="field-label">Status: </span>
