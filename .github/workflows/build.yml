@@ -30,9 +30,13 @@ jobs:
       - name: Lint
         run: npm run lint
       - name: Test
-        run: npm test
-      - name: Run SonarQube Analysis
-        run: npm run test -- --coverage --watchAll=false && npm run sonar
+        run: npm test && npm run test -- --coverage --watchAll=false
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Build
         uses: actions/setup-node@v3
