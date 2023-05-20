@@ -14,7 +14,6 @@ label {
     font-weight: bold;
     width: 20vmin;
     min-width: 60px;
-    margin-top: 5px;
     padding: 4px;
     margin-top: 10px;
     cursor: pointer;
@@ -31,7 +30,6 @@ label {
     font-weight: bold;
     width: 15vmin;
     min-width: 60px;
-    margin-top: 5px;
     padding: 4px;
     margin-top: 10px;
     cursor: pointer;
