@@ -64,7 +64,7 @@ const Login: React.FC = () => {
             }, {
                 withCredentials: true,
             });
-            console.log('login response', response);
+            console.log('login response1', response);
             if (response.data.accessToken == null) {
                 setErrorMessage('Wrong password. Try again or contact us to reset it.');
             } else{
