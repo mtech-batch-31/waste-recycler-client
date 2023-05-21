@@ -367,7 +367,7 @@ const Price: React.FC = () => {
             </tbody>
           </Table>
 
-          <Form noValidate className="pt-3" onSubmit={handleFormSubmit}>
+          <Form noValidate className="pt-3" onSubmit={e =>handleFormSubmit(e)}>
             <Row>
               <Col>
                 <Form.Group controlId="exampleForm.ControlSelect1">
