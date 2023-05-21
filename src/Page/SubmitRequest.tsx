@@ -148,7 +148,7 @@ const SubmitRequest = () => {
           <h1 className="text-center p-3">Recycle Cart</h1>
           <h2 className="text-center">Step 2 Submit Request</h2>
         </div>
-        <Form onSubmit={submitRequest} >
+        <Form onSubmit={e => submitRequest(e)} >
             <Table bordered hover>
             <thead>
                 <tr>

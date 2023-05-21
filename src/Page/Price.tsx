@@ -246,7 +246,7 @@ const Price: React.FC = () => {
 
       if (response.status == 200){
         let responseData : RecyclePriceResponse = response.data;
-        responseData.items.map(item => item.unitOfMeasurement = getUnitOfMeasurement(item.category));
+        responseData.items.forEach(item => item.unitOfMeasurement = getUnitOfMeasurement(item.category));
         responseData.promoCode = formData.promoCode;
         setRecyclePriceResponse(responseData);
         setRecycleRequest(newRecycleRequest);
@@ -302,7 +302,7 @@ const Price: React.FC = () => {
         console.log("price response", response.status);
         if (response.status == 200){
           let responseData : RecyclePriceResponse = response.data;
-          responseData.items.map(item => item.unitOfMeasurement = getUnitOfMeasurement(item.category));
+          responseData.items.forEach(item => item.unitOfMeasurement = getUnitOfMeasurement(item.category));
           responseData.promoCode = formData.promoCode;
           //console.log("setRecyclePriceResponse ");
           setRecyclePriceResponse(responseData);
@@ -447,7 +447,7 @@ const Price: React.FC = () => {
                     />
                   </Form.Group>
                   <div className=" d-flex mx-3">
-                   <Button type="button" variant="warning" onClick={applyPromoCode}>Apply</Button>
+                   <Button type="button" variant="warning" onClick={() => applyPromoCode()}>Apply</Button>
                     <span className=" align-self-end">Promo Code Applied: {promoCode}</span>
                   </div>
             </div>

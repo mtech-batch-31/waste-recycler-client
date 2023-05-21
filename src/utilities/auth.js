@@ -7,7 +7,7 @@ export function isLogin()
     let token = Cookies.get(ACCESS_TOKEN) ;
     //console.log('Route protection: '+token);
     if(!token)
-        return redirect('/');``
+        return redirect('/');
     return null;
 }
 
